@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <link rel="icon" href="assets/brand/favicon.svg" type="image/svg+xml">
+  <title>La Petite by Heba Azzam · أزياء محتشمة من الأردن</title>
+  <meta name="description" content="لا بوتيت باي هبة عزام: تصاميم محتشمة حصرية من الأردن. عبايات، أطقم، فساتين وجاكيتات، مع توصيل لكل المملكة والدفع عند الاستلام." data-i18n-content="metaHome">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- Fonts load without holding up the page: the logo font (only the letters of "La Petite") and the Arabic text font -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500&text=La%20Petite&display=swap" media="print" onload="this.media='all'">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600&display=swap" media="print" onload="this.media='all'">
+  <noscript>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500&text=La%20Petite&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600&display=swap">
+  </noscript>
+  <!-- First hero photo: matches the src/srcset/sizes home.js gives it (LP.config.images) -->
+  <link rel="preload" as="image" href="assets/brand/hero.webp" imagesrcset="assets/brand/sm/hero.webp 600w, assets/brand/hero.webp 1200w" imagesizes="(min-width: 768px) 50vw, 100vw" fetchpriority="high">
+  <link rel="stylesheet" href="tokens/tokens.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/pages.css">
+  <link rel="stylesheet" href="css/effects.css">
+  <!-- Hold the first paint until the whole page has been read and drawn by its scripts, so a page-to-page
+       transition (effects.css) fades into the finished page, never an empty frame. No element has this id on purpose. -->
+  <link rel="expect" href="#page-read" blocking="render">
+</head>
+<body>
+  <div id="site-header"></div>
+
+  <main id="main">
+    <!-- Hero: full screen, pinned photos, shop button, brand facts strip -->
+    <section class="hero">
+      <div class="hero__media" id="hero-media"></div>
+      <div class="hero__veil"></div>
+      <div class="container hero__inner">
+        <h1 class="hero__title" data-i18n="heroTitle"></h1>
+        <p class="hero__lead" data-i18n="heroLead"></p>
+        <div class="hero__actions" id="hero-actions"></div>
+      </div>
+      <div class="hero-facts">
+        <ul class="container hero-facts__list" id="hero-facts"></ul>
+      </div>
+    </section>
+
+    <!-- Shop by category -->
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <h2 class="h2" data-i18n="shopByCategory"></h2>
+          <a class="link" href="shop.html" data-i18n="shopAll"></a>
+        </div>
+        <div class="tiles" id="categories"></div>
+      </div>
+    </section>
+
+    <!-- New this season -->
+    <section class="section section--alt">
+      <div class="container">
+        <div class="section-head">
+          <h2 class="h2" data-i18n="newThisSeason"></h2>
+          <a class="link" href="shop.html" data-i18n="viewAll"></a>
+        </div>
+        <div class="rail" id="new-products"></div>
+      </div>
+    </section>
+
+    <!-- Collections lookbook -->
+    <section class="section" id="collections">
+      <div class="container">
+        <div class="section-head">
+          <h2 class="h2" data-i18n="collections"></h2>
+        </div>
+        <div class="lookbook" id="lookbook"></div>
+      </div>
+    </section>
+
+    <!-- About the brand + Instagram: her latest posts beside the story -->
+    <section class="section section--alt" id="about-brand">
+      <div class="container brand-about">
+        <div class="brand-about__body">
+          <p class="eyebrow" data-i18n="aboutBrandEyebrow"></p>
+          <h2 class="h1" data-i18n="aboutTeaserTitle"></h2>
+          <div class="prose" id="about-teaser-text"></div>
+          <ol class="points" id="about-points"></ol>
+          <a class="btn btn--primary" id="ig-link" target="_blank" rel="noopener"></a>
+        </div>
+        <div class="brand-about__media brand-about__grid" id="about-media"></div>
+      </div>
+    </section>
+
+  </main>
+
+  <div id="site-footer"></div>
+
+  <script src="js/config.js"></script>
+  <script src="js/i18n.js"></script>
+  <script src="js/content.js"></script>
+  <script src="js/products.js"></script>
+  <script src="js/tones.js"></script>
+  <script src="js/store.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/effects.js"></script>
+  <script src="js/home.js"></script>
+</body>
+</html>

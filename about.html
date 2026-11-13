@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <link rel="icon" href="assets/brand/favicon.svg" type="image/svg+xml">
+  <title>عن لا بوتيت · La Petite</title>
+  <meta name="description" content="حكاية لا بوتيت باي هبة عزام: علامة أردنية للأزياء المحتشمة بتصاميم حصرية وخامات مختارة." data-i18n-content="metaAbout">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- Fonts load without holding up the page: the logo font (only the letters of "La Petite") and the Arabic text font -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500&text=La%20Petite&display=swap" media="print" onload="this.media='all'">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600&display=swap" media="print" onload="this.media='all'">
+  <noscript>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500&text=La%20Petite&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600&display=swap">
+  </noscript>
+  <link rel="stylesheet" href="tokens/tokens.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/pages.css">
+  <link rel="stylesheet" href="css/effects.css">
+  <!-- Hold the first paint until the whole page has been read and drawn by its scripts, so a page-to-page
+       transition (effects.css) fades into the finished page, never an empty frame. No element has this id on purpose. -->
+  <link rel="expect" href="#page-read" blocking="render">
+</head>
+<body>
+  <div id="site-header"></div>
+
+  <main id="main">
+    <section class="section">
+      <div class="container split">
+        <div class="split__media" id="about-hero-media"></div>
+        <div class="split__copy">
+          <h1 class="h1" id="about-title"></h1>
+          <p class="lead" id="about-lead"></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--alt">
+      <div class="container container--narrow">
+        <div class="prose" id="about-body"></div>
+      </div>
+    </section>
+
+    <section class="section section--tight section--alt">
+      <div class="container gallery-strip" id="about-gallery"></div>
+    </section>
+
+    <section class="section">
+      <div class="container split split--reverse">
+        <div class="split__media" id="about-second-media"></div>
+        <div class="split__copy">
+          <div class="prose" id="about-closing"></div>
+          <a class="btn btn--primary" href="shop.html" data-i18n="aboutCta"></a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="site-footer"></div>
+
+  <script src="js/config.js"></script>
+  <script src="js/i18n.js"></script>
+  <script src="js/content.js"></script>
+  <script src="js/products.js"></script>
+  <script src="js/tones.js"></script>
+  <script src="js/store.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/effects.js"></script>
+  <script src="js/about.js"></script>
+</body>
+</html>

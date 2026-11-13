@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <link rel="icon" href="assets/brand/favicon.svg" type="image/svg+xml">
+  <title>تسوّقي · La Petite</title>
+  <meta name="description" content="تسوّقي من لا بوتيت: عبايات، أطقم، فساتين، جاكيتات، فيستات وبلايز محتشمة. توصيل لكل الأردن والدفع عند الاستلام." data-i18n-content="metaShop">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- Fonts load without holding up the page: the logo font (only the letters of "La Petite") and the Arabic text font -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500&text=La%20Petite&display=swap" media="print" onload="this.media='all'">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600&display=swap" media="print" onload="this.media='all'">
+  <noscript>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500&text=La%20Petite&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600&display=swap">
+  </noscript>
+  <link rel="stylesheet" href="tokens/tokens.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/pages.css">
+  <link rel="stylesheet" href="css/effects.css">
+  <!-- Hold the first paint until the whole page has been read and drawn by its scripts, so a page-to-page
+       transition (effects.css) fades into the finished page, never an empty frame. No element has this id on purpose. -->
+  <link rel="expect" href="#page-read" blocking="render">
+</head>
+<body>
+  <div id="site-header"></div>
+
+  <main id="main">
+    <div class="container shop-head">
+      <div class="shop-head__row">
+        <h1 class="h1" id="shop-title"></h1>
+        <p class="result-count" id="result-count" aria-live="polite"></p>
+      </div>
+      <div class="search">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
+        <label class="sr-only" for="search-input" data-i18n="search"></label>
+        <input class="input" id="search-input" type="search" autocomplete="off" data-i18n-placeholder="searchPlaceholder">
+      </div>
+    </div>
+
+    <div class="filters">
+      <div class="container">
+        <div class="filters__bar">
+          <button class="chip filters__toggle" type="button" id="filters-toggle" aria-expanded="false" aria-controls="filters-panel"></button>
+          <div class="chips" id="category-chips" role="group"></div>
+        </div>
+        <div class="filters__row" id="filters-panel">
+          <label class="sr-only" for="f-collection" data-i18n="filterCollection"></label>
+          <select class="select" id="f-collection"></select>
+          <label class="sr-only" for="f-color" data-i18n="filterColor"></label>
+          <select class="select" id="f-color"></select>
+          <label class="sr-only" for="f-size" data-i18n="filterSize"></label>
+          <select class="select" id="f-size"></select>
+          <label class="sr-only" for="f-sort" data-i18n="sortLabel"></label>
+          <select class="select" id="f-sort"></select>
+          <button class="btn btn--primary filters__done" type="button" id="filters-done"></button>
+        </div>
+      </div>
+    </div>
+
+    <div class="container" id="results">
+      <div class="applied" id="applied" hidden></div>
+      <div class="product-grid shop-grid" id="grid"></div>
+      <div id="empty"></div>
+      <nav class="pager" id="pager" hidden></nav>
+    </div>
+  </main>
+
+  <div id="site-footer"></div>
+
+  <script src="js/config.js"></script>
+  <script src="js/i18n.js"></script>
+  <script src="js/products.js"></script>
+  <script src="js/tones.js"></script>
+  <script src="js/store.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/effects.js"></script>
+  <script src="js/shop.js"></script>
+</body>
+</html>

@@ -1,0 +1,325 @@
+/* =========================================================
+   La Petite — design tokens (luxe editorial)
+   Every color, size, space and font used by the site lives here.
+   Change a value once and it updates everywhere.
+   ========================================================= */
+
+:root {
+  /* ---------- Color: base ---------- */
+  --color-ink: #1C1917;              /* buttons, headings */
+  --color-text: #2A2420;             /* body text (15:1 on white) */
+  --color-text-secondary: #5E5650;   /* meta text (7.2:1 on white) */
+  --color-text-hint: #6F6760;        /* placeholders, helper text (5.5:1 on white) */
+  --color-on-ink: #FFFFFF;           /* text on dark backgrounds and photos */
+  --color-on-ink-soft: rgba(255, 255, 255, 0.82);
+
+  --color-surface: #FFFFFF;          /* page */
+  --color-surface-alt: #F3F0EC;      /* stone panels */
+  --color-surface-sunken: #ECE7E1;   /* image placeholders */
+  --color-border: #E3DDD6;           /* hairlines */
+  --color-border-strong: #2A2420;    /* selected chips, focused inputs */
+
+  /* ---------- Color: brand ---------- */
+  --color-accent: #5E2129;           /* deep burgundy from her collections */
+  --color-accent-soft: #F3EAEA;
+  --color-success: #1E6B47;
+  --color-success-soft: #E5F1EA;
+  --color-danger: #A1261F;
+  --color-danger-soft: #F8E6E4;
+  --color-warning: #8A5300;          /* order "under review" (5.6:1 on its soft tint) */
+  --color-warning-soft: #FBF0DC;
+  --color-overlay: rgba(28, 25, 23, 0.55);
+  --color-footer-line: rgba(255, 255, 255, 0.16);
+  /* Hero: darker at the top (under the white header) and bottom, light in the middle */
+  --color-hero-veil: linear-gradient(to bottom, rgba(28, 25, 23, 0.62) 0%, rgba(28, 25, 23, 0.42) 16%, rgba(28, 25, 23, 0.14) 32%, rgba(28, 25, 23, 0.36) 46%, rgba(28, 25, 23, 0.6) 70%, rgba(28, 25, 23, 0.66) 100%);
+  /* A soft band behind the floating header so its small white text reads over bright photos */
+  --color-head-scrim: linear-gradient(to bottom, rgba(28, 25, 23, 0.5) 0%, rgba(28, 25, 23, 0.32) 65%, rgba(28, 25, 23, 0) 100%);
+  --head-scrim-extend: 48px;
+  --shadow-hero-text: 0 1px 2px rgba(28, 25, 23, 0.5), 0 4px 28px rgba(28, 25, 23, 0.45);
+  --shadow-hero-icon: 0 1px 2px rgba(28, 25, 23, 0.55);
+  --color-hero-scrim: linear-gradient(to top, rgba(28, 25, 23, 0.66) 0%, rgba(28, 25, 23, 0.18) 45%, rgba(28, 25, 23, 0.05) 100%);
+
+  /* Frosted glass: header once scrolled, hero facts strip, category tiles */
+  --color-glass-light: rgba(255, 255, 255, 0.78);
+  --color-glass-light-edge: rgba(28, 25, 23, 0.08);
+  --color-glass-dark: rgba(28, 25, 23, 0.5);
+  --color-glass-dark-edge: rgba(255, 255, 255, 0.14);
+  --color-on-photo: rgba(255, 255, 255, 0.88);
+  --color-line-on-photo: rgba(255, 255, 255, 0.22);
+  --color-tile-strip: rgba(28, 25, 23, 0.62);
+  --glass: blur(16px) saturate(140%);
+  --blur: blur(12px);
+
+  /* ---------- Color: product swatches ---------- */
+  --swatch-black: #1C1C1C;
+  --swatch-olive: #5B5E3F;
+  --swatch-beige: #D8C7AE;
+  --swatch-lightbeige: #EAE0D1;
+  --swatch-grey: #9A9A98;
+  --swatch-burgundy: #6E2A2F;
+  --swatch-brown: #5A3E31;
+  --swatch-cream: #EFE6D6;
+  --swatch-mocha: #7B5E52;
+  --swatch-white: #FFFFFF;
+  --swatch-offwhite: #F2EDE3;
+  --swatch-skyblue: #BBD3E8;
+  --swatch-navy: #232B45;
+  --swatch-denim: #4A6A93;
+  --swatch-pink: #E2B7BE;
+
+  /* ---------- Typography ---------- */
+  /* Helvetica everywhere except the logo. Helvetica has no Arabic letters, so Arabic
+     text falls through to IBM Plex Sans Arabic (as do devices without Helvetica). */
+  --font-body: "Helvetica Neue", Helvetica, "IBM Plex Sans Arabic", Arial, sans-serif;
+  --font-display: var(--font-body);
+  --font-wordmark: "Cormorant Garamond", Georgia, "Times New Roman", serif;   /* logo only */
+
+  /* Type scale built on the golden ratio (φ ≈ 1.618).
+     Each size is the one below it × √φ (1.272), so every
+     second step is exactly × φ:  16 → 20.4 → 25.9 → 32.9 → 41.9 → 53.3 → 67.8 */
+  --type-base: 16px;
+  --type-ratio: 1.618;     /* φ */
+  --type-step: 1.272;      /* √φ, a half step */
+  --type-min: 12px;        /* legibility floor for the smallest labels */
+
+  --size-down-2: max(var(--type-min), calc(var(--type-base) / var(--type-ratio)));  /* 12 (floor) */
+  --size-down-1: calc(var(--type-base) / var(--type-step));                         /* 12.6 */
+  --size-0: var(--type-base);                                                        /* 16 */
+  --size-1: calc(var(--type-base) * var(--type-step));                               /* 20.4 */
+  --size-2: calc(var(--type-base) * var(--type-ratio));                              /* 25.9 */
+  --size-3: calc(var(--type-base) * var(--type-ratio) * var(--type-step));           /* 32.9 */
+  --size-4: calc(var(--type-base) * var(--type-ratio) * var(--type-ratio));          /* 41.9 */
+  --size-5: calc(var(--size-4) * var(--type-step));                                  /* 53.3 */
+  --size-6: calc(var(--size-4) * var(--type-ratio));                                 /* 67.8 */
+
+  /* Roles (phones): headings sit one half step lower on small screens */
+  --text-xs: var(--size-down-2);
+  --text-sm: var(--size-down-1);
+  --text-md: var(--size-0);
+  --text-lg: var(--size-1);
+  --text-xl: var(--size-2);
+  --text-2xl: var(--size-2);
+  --text-3xl: var(--size-3);
+  --text-display: var(--size-4);
+  --text-wordmark: var(--size-2);
+  --text-wordmark-tall: var(--size-3);   /* home, at the top of the hero */
+
+  --weight-light: 300;      /* large headings */
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+
+  --leading-none: 1;
+  --leading-tight: 1.2;
+  --leading-snug: 1.4;
+  --leading-normal: var(--type-ratio);   /* body line height = φ */
+
+  /* Letter-spacing is for Latin only — it breaks Arabic letter joins */
+  --tracking-wide: 0.14em;
+  --tracking-display: -0.02em;   /* large headings */
+  --tracking-wordmark: 0.03em;
+  --tracking-wordmark-sub: 0.18em;
+
+  /* ---------- Space ----------
+     Small steps stay on the standard 4px grid (buttons, icons, tap sizes).
+     From there up, spacing follows the same golden scale as the text —
+     16 × φ, with a half step (× √φ) at 33:   26 → 33 → 42 → 68 → 110 → 178 */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: calc(var(--type-base) * var(--type-ratio));    /* 25.9  = 16φ  */
+  --space-6: calc(var(--space-5) * var(--type-step));       /* 32.9  = 16φ√φ */
+  --space-7: calc(var(--space-5) * var(--type-ratio));      /* 41.9  = 16φ² */
+  --space-8: calc(var(--space-7) * var(--type-ratio));      /* 67.8  = 16φ³ */
+  --space-9: calc(var(--space-8) * var(--type-ratio));      /* 109.7 = 16φ⁴ */
+  --section-y: var(--space-8);
+
+  /* ---------- Safe area (iPhone notch, home bar, landscape edges) ---------- */
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-right: env(safe-area-inset-right, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-left: env(safe-area-inset-left, 0px);
+
+  /* ---------- Shape ---------- */
+  --radius-none: 0;
+  --radius-sm: 2px;
+  --radius-pill: 999px;
+  --border-hairline: 1px solid var(--color-border);
+  --border-strong: 1px solid var(--color-border-strong);
+
+  /* ---------- Layout ---------- */
+  --container: 1360px;
+  --container-narrow: 760px;
+  --gutter: calc(var(--type-base) * var(--type-step));   /* 20.4 = 16√φ */
+  --header-h: 64px;
+  --header-h-tall: 96px;              /* home header at the top of the hero; shrinks to --header-h */
+  --header-shrink-distance: 300px;    /* scroll distance over which it shrinks */
+  --announce-h: 40px;
+  --announce-max: 80px;               /* room for a two-line announcement while it collapses */
+  --touch: 44px;
+  --swatch-size: 36px;
+  --swatch-dot: 10px;
+  --icon-size: 22px;
+  --icon-logo-inset: 2px;
+  --icon-stroke: 1.5;
+  --focus-width: 2px;
+  --underline-offset: 5px;
+  --select-arrow: 5px;
+  --badge-size: 18px;
+  --thumb-w: 76px;
+  --order-thumb: 64px;      /* item photo on the order page and admin */
+  --tracker-dot: 32px;      /* order tracking step circles */
+  --switch-w: 40px;         /* on/off toggles in the admin */
+  --switch-h: 24px;
+  --admin-photo-w: 88px;    /* photo tiles in the admin product editor */
+  --toast-w: 420px;
+  --modal-w: 560px;
+  --drawer-w: 340px;
+  --measure: 38ch;
+  --measure-wide: 62ch;
+  --measure-display: 14ch;
+  --measure-statement: 22ch;
+  --buybox-w: 440px;
+  --filter-w: 220px;
+  --hero-h: 100svh;   /* one full screen */
+  --hero-min-h: 520px;
+  --tile-focus: 50% 22%;                      /* keeps faces in view in the category tiles */
+
+  --image-ratio: 3 / 4;
+  --image-ratio-pdp-mobile: 4 / 5;
+  --image-ratio-square: 1 / 1;
+  --look-h: 460px;
+  --look-gap: var(--space-1);   /* gap between collection cards (phones) */
+  --look-grow: 9;               /* how much wider the open collection card is than a closed one */
+
+  /* Two-column sections split on the golden ratio: 61.8% / 38.2% */
+  --split-golden: minmax(0, 1.618fr) minmax(0, 1fr);
+  --split-golden-rev: minmax(0, 1fr) minmax(0, 1.618fr);
+
+  /* Product grids: the gap between rows is the gap between columns × φ */
+  --grid-cols: 2;
+  --grid-gap-x: var(--space-4);
+  --grid-gap-y: calc(var(--grid-gap-x) * var(--type-ratio));
+
+  /* ---------- Elevation ---------- */
+  --shadow-sheet: 0 -8px 24px rgba(28, 25, 23, 0.10);
+  --shadow-pop: 0 16px 40px rgba(28, 25, 23, 0.18);
+
+  /* ---------- Motion ---------- */
+  --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --duration-fast: 150ms;
+  --duration: 240ms;          /* UI responses stay under 300ms */
+  --duration-slow: 500ms;     /* larger, decorative moves (photos, collections) */
+  --zoom-hover: 1.04;
+  --press-scale: 0.97;        /* buttons give a little when pressed */
+
+  /* ---------- Effects ---------- */
+  --color-season-bg: var(--color-accent);
+  --color-season-gold: #D9B77E;
+  --color-season-glow: rgba(217, 183, 126, 0.22);
+  --hero-fade: 1600ms;
+  --hero-zoom: 1.08;
+  --hero-zoom-duration: 16s;
+  --reveal-duration: 700ms;
+  --reveal-shift: 24px;
+  --skeleton-duration: 900ms;   /* loading blocks breathe slowly */
+  --skeleton-dim: 0.45;
+  --skeleton-short: 38%;
+  --skeleton-long: 62%;
+  --skeleton-block: 144px;
+  --cursor-size: 84px;
+  --zoom-scale: 2.2;
+  --lantern-w: 34px;
+  --qv-w: 920px;
+  --qv-from-scale: 0.92;    /* quick view grows from the card it was opened from */
+  /* Size advisor (product page) */
+  --fit-w: 460px;
+  --fit-figure-w: 64px;
+  --fit-figure-h: 168px;
+  --fit-ring: 128px;
+  --fit-ring-w: 6px;
+  --fit-mark: 3px;            /* dark edge on each reason row */
+  --fit-dot: 8px;
+  --fit-bar-h: 4px;
+  --fit-bar-knob: 12px;
+  --range-track: 2px;
+  --range-thumb: 20px;
+  --range-thumb-ring: 3px;
+  --fit-garment-w: 200px;
+  --fit-garment-label: 9px;   /* in the drawing's own units */
+  --star-size: 16px;
+  /* Bag drawer */
+  --cart-w: 440px;
+  --cart-pair-w: 112px;
+  --progress-h: 4px;
+  --picker-w: 440px;
+  --image-ratio-banner: 16 / 10;
+  --qv-thumb: 56px;
+  --swatch-hit: 24px;
+  --ring-offset: 2px;
+  --hairline-w: 1px;
+  --scale-hover: 1.12;
+  --scale-bump: 1.6;
+  --line-w: 2px;
+  --sway-duration: 4s;
+  --sway-angle: 3deg;
+
+  /* ---------- Layers ---------- */
+  --z-header: 50;
+  --z-sheet: 70;
+  --z-toast: 90;
+}
+
+/* Arabic: no letter-spacing (it breaks the letter joins) */
+:root[lang="ar"] {
+  --tracking-wide: 0;
+  --tracking-display: 0;
+  --measure-wide: 54ch;   /* Arabic letters are narrower than the "0" that ch measures, so lines ran long */
+}
+
+/* ---------- Responsive token overrides ---------- */
+@media (min-width: 768px) {
+  :root {
+    --gutter: var(--space-6);                               /* 32.9 */
+    --look-gap: var(--space-2);
+    --look-grow: 5;
+    --grid-cols: 3;
+    --grid-gap-x: var(--space-5);
+    --section-y: var(--space-9);
+    --text-2xl: var(--size-3);
+    --text-3xl: var(--size-4);
+    --text-display: var(--size-5);
+  }
+}
+
+@media (min-width: 1100px) {
+  :root {
+    --gutter: calc(var(--space-7) * var(--type-step));     /* 53.3 = 16φ²√φ */
+    --header-h: 80px;
+    --header-h-tall: 128px;
+    --text-wordmark: var(--size-3);
+    --text-wordmark-tall: var(--size-5);
+    --text-3xl: var(--size-5);
+    --text-display: var(--size-6);
+    --look-h: 600px;
+    --look-gap: var(--space-3);
+    --look-grow: 2.6;
+  }
+}
+
+@media (min-width: 1400px) {
+  :root {
+    --grid-cols: 4;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --duration-fast: 0ms;
+    --duration: 0ms;
+    --duration-slow: 0ms;
+    --zoom-hover: 1;
+    --hero-zoom: 1;
+  }
+}

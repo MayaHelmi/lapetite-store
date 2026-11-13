@@ -1,0 +1,220 @@
+/* =========================================================
+   Effects: hero crossfade, scroll reveal, cursor,
+   card swatches + quick view, fly-to-bag,
+   hover zoom, seasonal decor
+   Uses tokens only.
+   ========================================================= */
+
+/* ---------- Hero: crossfading slots with a slow zoom ---------- */
+.hero__slot { position: relative; overflow: hidden; }
+.hero__slot:not(:first-child) { display: none; }
+.hero__slot img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 25%;
+  opacity: 0;
+  transition: opacity var(--hero-fade) var(--ease);
+}
+.hero__slot img.is-active { opacity: 1; animation: hero-zoom var(--hero-zoom-duration) linear forwards; }
+@keyframes hero-zoom { from { transform: scale(1); } to { transform: scale(var(--hero-zoom)); } }
+@media (min-width: 768px) {
+  .hero__slot:not(:first-child) { display: block; }
+}
+
+/* ---------- Scroll reveal ---------- */
+/* The wipe clips the element's contents, not the element itself,
+   so the browser still sees it on screen and can trigger the reveal */
+.has-reveal [data-reveal="wipe"] > * { transition: clip-path var(--reveal-duration) var(--ease); transition-delay: inherit; }
+.has-reveal [data-reveal="wipe"]:not(.is-revealed) > * { clip-path: inset(0 0 100% 0); }
+.has-reveal [data-reveal="fade"] { transition: opacity var(--reveal-duration) var(--ease), transform var(--reveal-duration) var(--ease); }
+.has-reveal [data-reveal="fade"]:not(.is-revealed) { opacity: 0; transform: translateY(var(--reveal-shift)); }
+
+/* ---------- Custom cursor ---------- */
+.cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: var(--z-toast);
+  width: var(--cursor-size);
+  height: var(--cursor-size);
+  margin: calc(var(--cursor-size) / -2) 0 0 calc(var(--cursor-size) / -2);
+  pointer-events: none;
+}
+.cursor__inner {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  border-radius: var(--radius-pill);
+  background: var(--color-ink);
+  color: var(--color-on-ink);
+  font-size: var(--text-xs);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  transform: scale(0);
+  transition: transform var(--duration) var(--ease);
+}
+.cursor.is-active .cursor__inner { transform: scale(1); }
+.has-cursor [data-cursor] { cursor: none; }
+.has-cursor [data-cursor] button,
+.has-cursor [data-cursor] .btn { cursor: pointer; }
+
+/* ---------- Card: color swatches, quick view ---------- */
+.card__dots { gap: 0; }
+.swatch-btn {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: var(--swatch-hit);
+  height: var(--swatch-hit);
+}
+.swatch-btn .dot { transition: transform var(--duration-fast) var(--ease); }
+.swatch-btn:hover .dot { transform: scale(var(--scale-hover)); }
+.swatch-btn[aria-pressed="true"] .dot { outline: var(--hairline-w) solid var(--color-ink); outline-offset: var(--ring-offset); }
+
+/* The tap area is taller than the dot */
+.swatch-btn::after { content: ""; position: absolute; inset: calc(var(--space-2) * -1) 0; }
+
+.card__quick {
+  position: absolute;
+  inset-inline: var(--space-3);
+  bottom: var(--space-3);
+  z-index: 2;
+  min-height: var(--touch);
+  opacity: 0;
+  transform: translateY(var(--space-2));
+  transition: opacity var(--duration) var(--ease), transform var(--duration) var(--ease), background var(--duration-fast) var(--ease), color var(--duration-fast) var(--ease);
+}
+.card:hover .card__quick,
+.card__quick:focus-visible { opacity: 1; transform: translateY(0); }
+@media (hover: none) {
+  .card__quick { display: none; }
+}
+
+/* ---------- Count badge bump ---------- */
+.count-badge.is-bumping { animation: badge-bump var(--duration) var(--ease); }
+@keyframes badge-bump { 0% { transform: scale(1); } 40% { transform: scale(var(--scale-bump)); } 100% { transform: scale(1); } }
+
+/* ---------- Fly-to-bag clone ---------- */
+.fly {
+  position: fixed;
+  z-index: var(--z-toast);
+  object-fit: cover;
+  pointer-events: none;
+  box-shadow: var(--shadow-pop);
+}
+
+/* ---------- Quick view dialog ---------- */
+.qv {
+  width: min(100% - 2 * var(--gutter), var(--qv-w));
+  max-height: calc(100vh - 2 * var(--space-6));
+  padding: 0;
+  border: 0;
+  background: var(--color-surface);
+  color: var(--color-text);
+  box-shadow: var(--shadow-pop);
+  overflow: auto;
+  /* Grows out of the card it was opened from and shrinks back into it (--qv-origin, set in ui.js).
+     A transition, so closing mid-way turns around. */
+  opacity: 0;
+  transform: scale(var(--qv-from-scale));
+  transform-origin: var(--qv-origin, 50% 50%);
+  transition-property: opacity, transform, overlay, display;
+  transition-duration: var(--duration);
+  transition-timing-function: var(--ease);
+  transition-behavior: allow-discrete;
+}
+.qv[open] { opacity: 1; transform: none; }
+@starting-style { .qv[open] { opacity: 0; transform: scale(var(--qv-from-scale)); } }
+.qv::backdrop { background: var(--color-overlay); }
+.qv__close { position: absolute; top: var(--space-2); inset-inline-end: var(--space-2); z-index: 1; background: var(--color-surface); }
+.qv__grid { display: grid; }
+.qv__media { display: grid; gap: var(--space-2); }
+.qv__img { width: 100%; max-width: 100%; aspect-ratio: var(--image-ratio); object-fit: cover; background: var(--color-surface-sunken); }
+.qv__thumbs { display: flex; gap: var(--space-2); padding-inline: var(--space-3); padding-bottom: var(--space-3); }
+.qv__thumbs button { width: var(--qv-thumb); border: var(--hairline-w) solid transparent; padding: 0; }
+.qv__thumbs button[aria-current="true"] { border-color: var(--color-ink); }
+.qv__thumbs img { aspect-ratio: var(--image-ratio); object-fit: cover; }
+.qv__body { display: grid; gap: var(--space-5); align-content: start; padding: var(--space-6); }
+.qv__body .h2 { font-size: var(--text-2xl); }
+@media (min-width: 768px) {
+  .qv__grid { grid-template-columns: 1fr 1fr; }
+  .qv__thumbs { padding-inline: 0; }
+}
+
+/* ---------- Product page: hover zoom ---------- */
+.zoom { position: relative; margin: 0; overflow: hidden; background: var(--color-surface-sunken); scroll-snap-align: start; }
+.zoom img { display: block; transition: transform var(--duration) var(--ease); }
+@media (hover: hover) and (min-width: 1100px) {
+  .zoom { cursor: zoom-in; }
+  .zoom.is-zoomed img { transform: scale(var(--zoom-scale)); }
+}
+
+/* ---------- Seasonal decor ---------- */
+[data-season] .announce { background: var(--color-season-bg); color: var(--color-season-gold); }
+[data-season] .announce__close { color: var(--color-season-gold); }
+.announce__text { display: inline-flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: var(--space-3); }
+.season-greeting {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-family: var(--font-display);
+  font-size: var(--text-md);
+}
+.season-greeting .icon { width: var(--space-4); height: var(--space-4); fill: currentColor; stroke: none; }
+
+.lanterns {
+  position: absolute;
+  inset-inline: 0;
+  top: calc(var(--announce-h) + var(--header-h-tall));   /* hang below the floating header */
+  z-index: 1;
+  display: flex;
+  justify-content: space-between;
+  padding-inline: var(--gutter);
+  pointer-events: none;
+}
+.lanterns__spacer { flex: 1; }
+.lantern {
+  width: var(--lantern-w);
+  height: auto;
+  color: var(--color-season-gold);
+  transform-origin: 50% 0;
+  animation: lantern-sway var(--sway-duration) ease-in-out infinite alternate;
+}
+.lantern--short { margin-top: calc(-1 * var(--space-6)); animation-delay: calc(var(--sway-duration) / -2); }
+.lantern path { fill: none; stroke: currentColor; stroke-width: var(--icon-stroke); }
+.lantern .lantern__body { fill: var(--color-season-glow); }
+.lantern .lantern__cap { fill: currentColor; }
+@keyframes lantern-sway { from { transform: rotate(calc(-1 * var(--sway-angle))); } to { transform: rotate(var(--sway-angle)); } }
+.lantern--short:nth-child(2),
+.lantern--short:nth-child(4) { display: none; }
+@media (min-width: 768px) {
+  .lantern--short:nth-child(2),
+  .lantern--short:nth-child(4) { display: block; }
+}
+
+/* ---------- Photos load over their own colours ----------
+   Each shipped photo carries its top and bottom tone (tones.js → LP.imgAttrs), so the space
+   it fills shows a soft gradient of the photo instead of a flat box until it arrives. */
+img[style*="--tone-a"] { background-image: linear-gradient(var(--tone-a), var(--tone-b)); }
+
+/* ---------- Page to page ----------
+   Pages cross-fade instead of flashing white. A photo tapped in a grid grows into the
+   product page's first photo, and shrinks back into its card on the way back (ui.js). */
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition { navigation: auto; }
+}
+.gallery__track .zoom:first-child img { view-transition-name: product-photo; }
+::view-transition-group(product-photo) { animation-duration: var(--duration-slow); animation-timing-function: var(--ease); }
+::view-transition-old(product-photo),
+::view-transition-new(product-photo) { block-size: 100%; object-fit: cover; }
+
+/* ---------- Reduced motion: keep everything still ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .hero__slot img.is-active,
+  .lantern { animation: none; }
+}

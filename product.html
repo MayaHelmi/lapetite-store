@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <link rel="icon" href="assets/brand/favicon.svg" type="image/svg+xml">
+  <title>La Petite</title>
+  <meta name="description" content="لا بوتيت باي هبة عزام: تصاميم محتشمة حصرية من الأردن. عبايات، أطقم، فساتين وجاكيتات، مع توصيل لكل المملكة والدفع عند الاستلام.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- Fonts load without holding up the page: the logo font (only the letters of "La Petite") and the Arabic text font -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500&text=La%20Petite&display=swap" media="print" onload="this.media='all'">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600&display=swap" media="print" onload="this.media='all'">
+  <noscript>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500&text=La%20Petite&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600&display=swap">
+  </noscript>
+  <link rel="stylesheet" href="tokens/tokens.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/pages.css">
+  <link rel="stylesheet" href="css/effects.css">
+  <!-- Hold the first paint until the whole page has been read and drawn by its scripts, so a page-to-page
+       transition (effects.css) fades into the finished page, never an empty frame. No element has this id on purpose. -->
+  <link rel="expect" href="#page-read" blocking="render">
+</head>
+<body>
+  <div id="site-header"></div>
+
+  <main id="main" class="container">
+    <nav aria-label="breadcrumb"><ol class="breadcrumb" id="breadcrumb"></ol></nav>
+
+    <div class="pdp">
+      <div class="gallery">
+        <div class="gallery__thumbs" id="thumbs"></div>
+        <div class="gallery__track" id="track" tabindex="0"></div>
+        <div class="gallery__dots" id="dots" aria-hidden="true"></div>
+      </div>
+
+      <form class="buybox" id="buybox" novalidate>
+        <div class="buybox__title">
+          <p class="eyebrow" id="p-collection"></p>
+          <h1 class="h1" id="p-name"></h1>
+          <p class="buybox__price" id="p-price"></p>
+          <div class="buybox__meta">
+            <p class="stock" id="p-stock"></p>
+            <a class="rating-link" id="p-rating" href="#reviews" hidden></a>
+          </div>
+        </div>
+
+        <fieldset class="buybox__group">
+          <legend class="buybox__label"><span data-i18n="colorLabel"></span><strong id="p-color-name"></strong></legend>
+          <div class="options" id="p-colors"></div>
+        </fieldset>
+
+        <fieldset class="buybox__group">
+          <legend class="buybox__label"><span data-i18n="sizeLabel"></span><strong id="p-size-name"></strong><button class="link buybox__guide" type="button" id="size-guide-link" data-i18n="sizeGuide" aria-haspopup="dialog"></button></legend>
+          <div class="options" id="p-sizes"></div>
+          <p class="field__error" id="size-error" role="alert"></p>
+          <button class="fit-trigger" type="button" id="fit-open" aria-haspopup="dialog"></button>
+        </fieldset>
+
+        <p class="buy-note" id="buy-note"></p>
+
+        <div class="buybox__cta" id="main-cta">
+          <div class="qty">
+            <button type="button" data-qty="-1" data-i18n-aria="decrease">−</button>
+            <output id="p-qty" aria-live="polite">1</output>
+            <button type="button" data-qty="1" data-i18n-aria="increase">+</button>
+          </div>
+          <button class="btn btn--primary btn--block" type="submit" data-i18n="addToBag"></button>
+        </div>
+        <button class="btn btn--secondary btn--block" type="button" id="buy-now" data-i18n="buyNow"></button>
+
+        <a class="link" id="p-ask" target="_blank" rel="noopener" data-i18n="askOnInstagram"></a>
+
+        <div class="accordion">
+          <details open>
+            <summary data-i18n="details"></summary>
+            <div class="accordion__body" id="p-details"></div>
+          </details>
+          <details>
+            <summary data-i18n="deliveryInfo"></summary>
+            <div class="accordion__body" id="p-delivery"></div>
+          </details>
+          <details>
+            <summary data-i18n="exchangeInfo"></summary>
+            <div class="accordion__body" id="p-exchange"></div>
+          </details>
+        </div>
+      </form>
+    </div>
+
+    <!-- Approved customer reviews (hidden until there are some) -->
+    <section class="section reviews" id="reviews" aria-labelledby="reviews-title" hidden></section>
+
+    <section class="section" aria-labelledby="also-title">
+      <div class="section-head"><h2 class="h2" id="also-title" data-i18n="alsoLike"></h2></div>
+      <div class="rail" id="also"></div>
+    </section>
+  </main>
+
+  <div class="sticky-buy" id="sticky-buy" aria-hidden="true">
+    <div class="sticky-buy__info"><strong id="sticky-name"></strong><span id="sticky-price"></span></div>
+    <button class="btn btn--primary" type="button" id="sticky-add" tabindex="-1" data-i18n="addToBag"></button>
+  </div>
+
+  <div id="site-footer"></div>
+
+  <script src="js/config.js"></script>
+  <script src="js/i18n.js"></script>
+  <script src="js/content.js"></script>
+  <script src="js/products.js"></script>
+  <script src="js/tones.js"></script>
+  <script src="js/store.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/effects.js"></script>
+  <script src="js/fit.js"></script>
+  <script src="js/product.js"></script>
+</body>
+</html>
