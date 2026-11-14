@@ -40,7 +40,8 @@ LP.swap = function (update) {
   if (!document.startViewTransition || window.matchMedia("(prefers-reduced-motion: reduce)").matches) { update(); return; }
   const root = document.documentElement;
   root.classList.add("is-swapping");
-  document.startViewTransition(update).finished.finally(() => root.classList.remove("is-swapping"));
+  const done = () => root.classList.remove("is-swapping");
+  document.startViewTransition(update).finished.then(done, done);
 };
 
 LP.setLang = function (lang) {
