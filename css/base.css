@@ -174,8 +174,7 @@ dialog:focus-visible { outline: none; }
 .qty button:active,
 .option span:active,
 .pager__btn:not([disabled]):active,
-.fit-seg span:active,
-.fit-nudge:active { transform: scale(var(--press-scale)); }
+.fit-stepper button:active { transform: scale(var(--press-scale)); }
 
 .btn--primary { background: var(--color-ink); color: var(--color-on-ink); border-color: var(--color-ink); }
 .btn--primary:hover { background: var(--color-accent); border-color: var(--color-accent); }

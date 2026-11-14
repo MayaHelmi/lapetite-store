@@ -234,19 +234,12 @@
   --qv-w: 920px;
   --qv-h: 640px;
   --qv-from-scale: 0.92;    /* quick view grows from the card it was opened from */
-  /* Size advisor (product page) */
+  /* Size help (product page) */
   --fit-w: 460px;
-  --fit-figure-w: 64px;
-  --fit-figure-h: 168px;
-  --fit-ring: 128px;
-  --fit-ring-w: 6px;
-  --fit-mark: 3px;            /* dark edge on each reason row */
-  --fit-dot: 8px;
-  --fit-bar-h: 4px;
-  --fit-bar-knob: 12px;
-  --range-track: 2px;
-  --range-thumb: 20px;
-  --range-thumb-ring: 3px;
+  --fit-step: 48px;           /* − and + buttons */
+  --fit-value-w: 96px;        /* the number and its unit between them */
+  --fit-digits: 3ch;
+  --fit-tile: 64px;           /* the size, big, in the answer */
   --fit-garment-w: 200px;
   --fit-garment-label: 9px;   /* in the drawing's own units */
   --star-size: 16px;

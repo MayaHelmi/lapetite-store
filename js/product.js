@@ -319,10 +319,10 @@
 
     document.getElementById("buy-now").addEventListener("click", buyNow);
 
-    // Size guide (chart tab) and size advisor (find tab): its result can pick the size, or pick it and add to the bag
-    const fitActions = { select: selectSize, add: size => { selectSize(size); addToBag(); } };
-    document.getElementById("fit-open").addEventListener("click", () => LP.fit.open(product, state.color, fitActions, "find"));
-    document.getElementById("size-guide-link").addEventListener("click", () => LP.fit.open(product, state.color, fitActions, "chart"));
+    // Size help: "Find my size" and the size chart are two views of one panel; the size it finds can go straight to the bag
+    const fitActions = { add: size => { selectSize(size); addToBag(); } };
+    document.getElementById("fit-open").addEventListener("click", () => LP.fit.open(product, fitActions));
+    document.getElementById("size-guide-link").addEventListener("click", () => LP.fit.open(product, fitActions, "chart"));
     document.getElementById("sticky-add").addEventListener("click", addToBag);
 
     document.addEventListener("click", e => {

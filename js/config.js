@@ -54,8 +54,7 @@ LP.config = {
     base: { height: 165, bmi: 22, bust: 90, waist: 72, hips: 98 },
     perBmi: { bust: 2.2, waist: 2.6, hips: 2.0 },          // cm per BMI point
     perCm: { bust: 0.15, waist: 0.1, hips: 0.15 },         // cm per cm of height
-    shape: { narrower: -4, average: 0, fuller: 5 },        // cm added for each shape answer
-    preference: { fitted: -2, regular: 0, relaxed: 4 },    // cm of ease for "How do you like it to fit?"
+    hold: { delay: 400, every: 80 },                       // ms: holding − or + keeps stepping
     ankleOffset: 25,                                       // a long piece reaches the ankle at height − this
     lengthTolerance: { long: 5, short: 8 },
     lengthCategories: ["abayas", "dresses"]                // pieces where the length matters
