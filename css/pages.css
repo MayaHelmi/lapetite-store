@@ -711,7 +711,8 @@
 .summary__row { display: flex; justify-content: space-between; gap: var(--space-3); font-variant-numeric: tabular-nums; }
 .summary__free { color: var(--color-success); font-weight: var(--weight-medium); }
 .summary__row--total { padding-top: var(--space-3); border-top: var(--border-hairline); font-size: var(--text-md); font-weight: var(--weight-medium); color: var(--color-ink); }
-.order-form { display: grid; gap: var(--space-4); }
+/* Arriving from the bag drawer scrolls here: stop below the sticky header, with the heading in view */
+.order-form { display: grid; gap: var(--space-4); scroll-margin-top: calc(var(--header-h) + var(--space-4)); }
 
 /* A piece that sold out or was removed since it went in the bag */
 .bag-item--issue img { opacity: 0.5; }
