@@ -116,24 +116,30 @@
   transition: flex-grow var(--duration-slow) var(--ease);
 }
 .look.is-open { flex-grow: var(--look-grow); }
-/* The photo keeps one size, as wide as an open card (or as the card is tall, if that's wider), centred.
-   Opening a card then only uncovers more of it; resizing a big photo on every frame is what made this stutter. */
 .look img {
   position: absolute;
-  top: 0;
-  left: 50%;
-  translate: -50% 0;
+  inset: 0;
   width: 100%;
-  width: max(
-    (100cqw - (var(--look-n) - 1) * var(--look-gap)) * var(--look-grow) / (var(--look-grow) + var(--look-n) - 1),
-    var(--look-h) * var(--image-ratio)
-  );
-  max-width: none;
   height: 100%;
   object-fit: cover;
   object-position: 50% 25%;
   will-change: transform;
   transition: transform var(--duration-slow) var(--ease);
+}
+/* The photo keeps one size: as wide as an open card (or as the card is tall, if that's wider). Opening a card
+   then only uncovers more of it; resizing a big photo on every frame is what made this stutter.
+   --focus (0 to 1, set per photo in products.js) is where the person stands across the photo:
+   that point stays in the middle of the card, as far as the photo's edges allow. */
+@supports (width: 1cqw) {
+  .look img {
+    --look-img-w: max(
+      (100cqw - (var(--look-n) - 1) * var(--look-gap)) * var(--look-grow) / (var(--look-grow) + var(--look-n) - 1),
+      var(--look-h) * var(--image-ratio)
+    );
+    inset: 0 auto auto clamp(100% - var(--look-img-w), 50% - var(--look-img-w) * var(--focus, 0.5), 0px);
+    width: var(--look-img-w);
+    max-width: none;
+  }
 }
 .look.is-open img { transform: scale(var(--zoom-hover)); }
 .look::after { content: ""; position: absolute; inset: 0; background: var(--color-hero-scrim); }

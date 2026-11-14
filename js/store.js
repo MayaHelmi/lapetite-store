@@ -71,14 +71,16 @@ LP.toneOf = function (src) {
   const tone = m && LP.tones && LP.tones[m[1]];
   return tone ? { a: "#" + tone.slice(0, 6), b: "#" + tone.slice(6, 12) } : null;
 };
-LP.toneAttr = function (src) {
+// extra: one more style to carry on the same attribute (the photo's focus point on the home page)
+LP.toneAttr = function (src, extra) {
   const tone = LP.toneOf(src);
-  return tone ? ' style="--tone-a: ' + tone.a + "; --tone-b: " + tone.b + '"' : "";
+  const styles = (tone ? ["--tone-a: " + tone.a, "--tone-b: " + tone.b] : []).concat(extra || []);
+  return styles.length ? ' style="' + styles.join("; ") + '"' : "";
 };
 // src + srcset + sizes for an <img>; kind is a key of LP.config.images.sizes
-LP.imgAttrs = function (src, kind) {
+LP.imgAttrs = function (src, kind, extra) {
   const set = LP.srcsetFor(src);
-  return 'src="' + src + '"' + (set ? ' srcset="' + set + '" sizes="' + LP.config.images.sizes[kind] + '"' : "") + LP.toneAttr(src);
+  return 'src="' + src + '"' + (set ? ' srcset="' + set + '" sizes="' + LP.config.images.sizes[kind] + '"' : "") + LP.toneAttr(src, extra);
 };
 // Swap the photo of an <img> that's already on the page
 LP.setImage = function (img, src, kind) {

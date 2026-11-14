@@ -249,22 +249,24 @@ LP.products = [
 
 /* Home page content — which images and links each section uses */
 LP.home = {
+  // focus (here and on the collections below): where the person stands across the photo,
+  // 0 = left edge, 1 = right edge. Narrow crops keep that point in view.
   heroImages: [
-    "assets/brand/hero.webp",
-    "assets/brand/hero-2.webp",
-    "assets/brand/cat-dresses.webp",
-    "assets/products/belted-jacket-burgundy-1.webp",
-    "assets/products/offwhite-geometric-abaya-offwhite-1.webp",
-    "assets/products/light-summer-set-pink-1.webp"
+    { image: "assets/brand/hero.webp", focus: 0.45 },
+    { image: "assets/brand/hero-2.webp", focus: 0.7 },
+    { image: "assets/brand/cat-dresses.webp", focus: 0.55 },
+    { image: "assets/products/belted-jacket-burgundy-1.webp", focus: 0.5 },
+    { image: "assets/products/offwhite-geometric-abaya-offwhite-1.webp", focus: 0.32 },
+    { image: "assets/products/light-summer-set-pink-1.webp", focus: 0.55 }
   ],
   newCollections: ["autumn", "winter"],
   newCount: 8,
   lookbook: [
-    { key: "autumn",  image: "col-autumn.webp" },
-    { key: "winter",  image: "col-winter.webp" },
-    { key: "ramadan", image: "col-ramadan.webp" },
-    { key: "eid",     image: "col-eid.webp" },
-    { key: "summer",  image: "col-summer.webp" }
+    { key: "autumn",  image: "col-autumn.webp",  focus: 0.58 },
+    { key: "winter",  image: "col-winter.webp",  focus: 0.62 },
+    { key: "ramadan", image: "col-ramadan.webp", focus: 0.25 },
+    { key: "eid",     image: "col-eid.webp",     focus: 0.57 },
+    { key: "summer",  image: "col-summer.webp",  focus: 0.55 }
   ],
   categoryTiles: [
     { key: "sets",      image: "cat-sets.webp" },

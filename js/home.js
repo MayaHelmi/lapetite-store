@@ -56,9 +56,9 @@
     for (let i = 0; i < slots; i++) {
       const pair = [pool[i], pool[i + slots]].filter(Boolean);
       // The second photo of each slot waits until the page has loaded (see loadLaterHeroPhotos)
-      html += '<div class="hero__slot">' + pair.map((src, k) => k === 0
-        ? "<img " + LP.imgAttrs(src, "hero") + ' alt="" width="1200" height="1600" class="is-active"' + (i === 0 ? ' fetchpriority="high"' : ' loading="lazy"') + ">"
-        : '<img data-src="' + src + '" sizes="' + LP.config.images.sizes.hero + '" alt="" width="1200" height="1600" loading="lazy">').join("") + "</div>";
+      html += '<div class="hero__slot">' + pair.map((photo, k) => k === 0
+        ? "<img " + LP.imgAttrs(photo.image, "hero", "--focus: " + photo.focus) + ' alt="" width="1200" height="1600" class="is-active"' + (i === 0 ? ' fetchpriority="high"' : ' loading="lazy"') + ">"
+        : '<img data-src="' + photo.image + '" sizes="' + LP.config.images.sizes.hero + '"' + LP.toneAttr(photo.image, "--focus: " + photo.focus) + ' alt="" width="1200" height="1600" loading="lazy">').join("") + "</div>";
     }
     document.getElementById("hero-media").innerHTML = html;
     if (document.readyState === "complete") loadLaterHeroPhotos();
@@ -122,7 +122,7 @@
       book.style.setProperty("--look-n", h.lookbook.length);
       book.innerHTML = h.lookbook.map((item, i) => {
         const n = LP.products.filter(p => p.collection === item.key).length;
-        return '<a class="look' + (i === openLook ? " is-open" : "") + '" href="shop.html?collection=' + item.key + '">' +
+        return '<a class="look' + (i === openLook ? " is-open" : "") + '" href="shop.html?collection=' + item.key + '" style="--focus: ' + item.focus + '">' +
           "<img " + LP.imgAttrs(brand + item.image, "look") + ' alt="" loading="lazy" decoding="async" width="1200" height="1600">' +
           '<div class="look__copy">' +
             '<span class="look__index">' + LP.piecesLabel(n) + "</span>" +
