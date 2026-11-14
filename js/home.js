@@ -119,6 +119,7 @@
       // Collections: expanding cards
       const book = document.getElementById("lookbook");
       book.classList.toggle("has-open", openLook >= 0);
+      book.style.setProperty("--look-n", h.lookbook.length);
       book.innerHTML = h.lookbook.map((item, i) => {
         const n = LP.products.filter(p => p.collection === item.key).length;
         return '<a class="look' + (i === openLook ? " is-open" : "") + '" href="shop.html?collection=' + item.key + '">' +

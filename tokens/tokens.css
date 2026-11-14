@@ -192,6 +192,7 @@
   --look-h: 460px;
   --look-gap: var(--space-1);   /* gap between collection cards (phones) */
   --look-grow: 9;               /* how much wider the open collection card is than a closed one */
+  --look-n: 5;                  /* how many collection cards there are (set from the list in home.js) */
 
   /* Two-column sections split on the golden ratio: 61.8% / 38.2% */
   --split-golden: minmax(0, 1.618fr) minmax(0, 1fr);

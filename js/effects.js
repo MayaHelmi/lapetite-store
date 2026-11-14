@@ -56,13 +56,25 @@ LP.effects = {
     items.forEach(el => {
       const siblings = [...el.parentElement.children].filter(c => c.dataset.reveal);
       const i = siblings.indexOf(el);
-      el.style.transitionDelay = Math.min(i, 5) * LP.config.effects.revealStagger + "ms";
+      el.style.setProperty("--reveal-delay", Math.min(i, 5) * LP.config.effects.revealStagger + "ms");
     });
+
+    // Once an element has finished appearing, the reveal lets go of it,
+    // so its own hover and open animations run with their own timing
+    const duration = parseFloat(getComputedStyle(root).getPropertyValue("--reveal-duration")) || 0;
+    const show = el => {
+      el.classList.add("is-revealed");
+      setTimeout(() => {
+        delete el.dataset.reveal;
+        el.classList.remove("is-revealed");
+        el.style.removeProperty("--reveal-delay");
+      }, duration + parseFloat(el.style.getPropertyValue("--reveal-delay")));
+    };
 
     this._observer = new IntersectionObserver(entries => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
-          entry.target.classList.add("is-revealed");
+          show(entry.target);
           this._observer.unobserve(entry.target);
         }
       });
@@ -70,7 +82,7 @@ LP.effects = {
 
     items.forEach(el => {
       // Anything already on screen shows right away
-      if (el.getBoundingClientRect().top < window.innerHeight) el.classList.add("is-revealed");
+      if (el.getBoundingClientRect().top < window.innerHeight) show(el);
       else this._observer.observe(el);
     });
   },

@@ -104,6 +104,7 @@
   display: flex;
   gap: var(--look-gap);
   height: var(--look-h);
+  container-type: inline-size;   /* lets a photo size itself from the row's width (cqw) */
 }
 .look {
   position: relative;
@@ -115,13 +116,23 @@
   transition: flex-grow var(--duration-slow) var(--ease);
 }
 .look.is-open { flex-grow: var(--look-grow); }
+/* The photo keeps one size, as wide as an open card (or as the card is tall, if that's wider), centred.
+   Opening a card then only uncovers more of it; resizing a big photo on every frame is what made this stutter. */
 .look img {
   position: absolute;
-  inset: 0;
+  top: 0;
+  left: 50%;
+  translate: -50% 0;
   width: 100%;
+  width: max(
+    (100cqw - (var(--look-n) - 1) * var(--look-gap)) * var(--look-grow) / (var(--look-grow) + var(--look-n) - 1),
+    var(--look-h) * var(--image-ratio)
+  );
+  max-width: none;
   height: 100%;
   object-fit: cover;
   object-position: 50% 25%;
+  will-change: transform;
   transition: transform var(--duration-slow) var(--ease);
 }
 .look.is-open img { transform: scale(var(--zoom-hover)); }

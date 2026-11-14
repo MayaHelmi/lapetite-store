@@ -27,9 +27,10 @@
 /* ---------- Scroll reveal ---------- */
 /* The wipe clips the element's contents, not the element itself,
    so the browser still sees it on screen and can trigger the reveal */
-.has-reveal [data-reveal="wipe"] > * { transition: clip-path var(--reveal-duration) var(--ease); transition-delay: inherit; }
+/* The stagger delay is its own property (--reveal-delay), so it never delays an element's other transitions */
+.has-reveal [data-reveal="wipe"] > * { transition: clip-path var(--reveal-duration) var(--ease) var(--reveal-delay, 0ms); }
 .has-reveal [data-reveal="wipe"]:not(.is-revealed) > * { clip-path: inset(0 0 100% 0); }
-.has-reveal [data-reveal="fade"] { transition: opacity var(--reveal-duration) var(--ease), transform var(--reveal-duration) var(--ease); }
+.has-reveal [data-reveal="fade"] { transition: opacity var(--reveal-duration) var(--ease) var(--reveal-delay, 0ms), transform var(--reveal-duration) var(--ease) var(--reveal-delay, 0ms); }
 .has-reveal [data-reveal="fade"]:not(.is-revealed) { opacity: 0; transform: translateY(var(--reveal-shift)); }
 
 /* ---------- Card: color swatches, quick view ---------- */
