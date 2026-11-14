@@ -61,7 +61,6 @@
     document.getElementById("size-guide-link").hidden = fitBtn.hidden;
     fitBtn.innerHTML = LP.icons.ruler + "<span>" + LP.t("fitOpen") + "</span>";
     document.getElementById("sticky-name").textContent = product.name[LP.lang];
-    document.getElementById("p-ask").href = LP.config.instagramDm;
   }
 
   /* ---------- Details, delivery, exchanges ---------- */
