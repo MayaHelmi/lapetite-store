@@ -66,6 +66,9 @@
   .card__quick { display: none; }
 }
 
+/* ---------- Appear: new content eases in instead of popping ---------- */
+@keyframes appear { from { opacity: 0; transform: translateY(var(--space-2)); } }
+
 /* ---------- Count badge bump ---------- */
 .count-badge.is-bumping { animation: badge-bump var(--duration) var(--ease); }
 @keyframes badge-bump { 0% { transform: scale(1); } 40% { transform: scale(var(--scale-bump)); } 100% { transform: scale(1); } }
@@ -99,7 +102,7 @@
   transition-timing-function: var(--ease);
   transition-behavior: allow-discrete;
 }
-.qv[open] { opacity: 1; transform: none; }
+.qv[open] { opacity: 1; transform: none; transition-duration: var(--duration-sheet); transition-timing-function: var(--ease-sheet); }
 @starting-style { .qv[open] { opacity: 0; transform: scale(var(--qv-from-scale)); } }
 .qv::backdrop { background: var(--color-overlay); }
 .qv__close { position: absolute; top: var(--space-2); inset-inline-end: var(--space-2); z-index: 1; background: var(--color-surface); }
@@ -183,6 +186,9 @@ img[style*="--tone-a"] { background-image: linear-gradient(var(--tone-a), var(--
 ::view-transition-group(product-photo) { animation-duration: var(--duration-slow); animation-timing-function: var(--ease); }
 ::view-transition-old(product-photo),
 ::view-transition-new(product-photo) { block-size: 100%; object-fit: cover; }
+/* The same cross-fade softens changes within a page (LP.swap in store.js). There the first photo
+   fades with the rest of the page instead of travelling on its own. */
+.is-swapping .gallery__track .zoom:first-child img { view-transition-name: none; }
 
 /* ---------- Reduced motion: keep everything still ---------- */
 @media (prefers-reduced-motion: reduce) {

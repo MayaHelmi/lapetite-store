@@ -33,11 +33,21 @@ LP.label = function (group, key) {
   return item ? item[LP.lang] : key;
 };
 
+/* ---------- Changes within a page ----------
+   A change that would otherwise pop (another language, the photos of another colour, new shop results)
+   cross-fades instead, where the browser can do it and the visitor hasn't asked for less motion. */
+LP.swap = function (update) {
+  if (!document.startViewTransition || window.matchMedia("(prefers-reduced-motion: reduce)").matches) { update(); return; }
+  const root = document.documentElement;
+  root.classList.add("is-swapping");
+  document.startViewTransition(update).finished.finally(() => root.classList.remove("is-swapping"));
+};
+
 LP.setLang = function (lang) {
   LP.langChosen = true;
   LP.lang = lang;
   LP.storage.set(LP.config.storage.lang, lang);
-  document.dispatchEvent(new CustomEvent("lp:lang"));
+  LP.swap(() => document.dispatchEvent(new CustomEvent("lp:lang")));
 };
 
 /* ---------- Products ---------- */

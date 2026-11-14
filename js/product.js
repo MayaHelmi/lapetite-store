@@ -245,6 +245,15 @@
     LP.setImage(img, LP.imagesFor(product, color)[0], "gallery");
   }
 
+  // The chosen colour's photos fade in over the old ones once the first has arrived, instead of popping in
+  function showColorPhotos() {
+    const color = state.color;
+    const first = new Image();
+    LP.setImage(first, LP.imagesFor(product, color)[0], "gallery");
+    const swap = () => { if (state.color === color) LP.swap(renderGallery); };
+    first.decode().then(swap, swap);
+  }
+
   function selectSize(size) {
     const input = document.querySelector('#p-sizes input[value="' + size + '"]');
     if (!input) return;
@@ -301,7 +310,7 @@
         state.color = e.target.value;
         document.getElementById("p-color-name").textContent = LP.label("colors", state.color);
         previewed = null;   // the photos are redrawn for the chosen colour
-        renderGallery();
+        showColorPhotos();
         const q = new URLSearchParams(location.search);
         q.set("color", state.color);
         history.replaceState(null, "", location.pathname + "?" + q.toString());

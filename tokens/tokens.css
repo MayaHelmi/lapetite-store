@@ -212,6 +212,10 @@
   --duration-fast: 150ms;
   --duration: 240ms;          /* UI responses stay under 300ms */
   --duration-slow: 500ms;     /* larger, decorative moves (photos, collections) */
+  /* Panels that slide onto the screen (size help, bag, menu) glide in rather than pop */
+  --ease-sheet: cubic-bezier(0.3, 0.1, 0.2, 1);   /* a gentle start and a long, soft landing */
+  --duration-sheet: 420ms;
+  --duration-sheet-out: 300ms;                    /* leaving is a little quicker */
   --zoom-hover: 1.04;
   --press-scale: 0.97;        /* buttons give a little when pressed */
 
@@ -313,6 +317,8 @@
     --duration-fast: 0ms;
     --duration: 0ms;
     --duration-slow: 0ms;
+    --duration-sheet: 0ms;
+    --duration-sheet-out: 0ms;
     --zoom-hover: 1;
     --hero-zoom: 1;
   }

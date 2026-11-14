@@ -177,12 +177,15 @@
     if (top < scrollY) scrollTo({ top: Math.max(0, top), behavior: LP.reducedMotion() ? "instant" : "smooth" });
   }
 
+  // Filters, sort or category changed: the new results cross-fade in
   function update() {
     state.page = 1;
     syncUrl();
-    renderControls();
-    renderApplied();
-    renderGrid();
+    LP.swap(() => {
+      renderControls();
+      renderApplied();
+      renderGrid();
+    });
   }
 
   function setPanel(open) {
@@ -217,11 +220,14 @@
         if (n === state.page) return;
         state.page = n;
         syncUrl(true);
-        renderGrid();
-        toResults();
-        // Keep keyboard focus on the pager (the buttons are re-drawn)
-        const again = document.querySelector('#pager [data-page="' + n + '"][aria-current]') || document.querySelector("#pager .pager__next:not([disabled]), #pager .pager__prev:not([disabled])");
-        if (again && pageBtn.matches(":focus-visible")) again.focus({ preventScroll: true });
+        const focused = pageBtn.matches(":focus-visible");
+        LP.swap(() => {
+          renderGrid();
+          toResults();
+          // Keep keyboard focus on the pager (the buttons are re-drawn)
+          const again = document.querySelector('#pager [data-page="' + n + '"][aria-current]') || document.querySelector("#pager .pager__next:not([disabled]), #pager .pager__prev:not([disabled])");
+          if (again && focused) again.focus({ preventScroll: true });
+        });
       }
     });
     // Back/forward between pages
@@ -239,8 +245,10 @@
         state.q = e.target.value;
         state.page = 1;
         syncUrl();
-        renderApplied();
-        renderGrid();
+        LP.swap(() => {
+          renderApplied();
+          renderGrid();
+        });
       }, 200);
     });
   }

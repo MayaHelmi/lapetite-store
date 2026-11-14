@@ -11,6 +11,7 @@
 [hidden] { display: none !important; }
 
 html {
+  interpolate-size: allow-keywords;   /* lets a height animate to and from "auto" (accordions) */
   -webkit-text-size-adjust: 100%;
   scroll-behavior: smooth;
 }

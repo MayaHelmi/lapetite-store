@@ -249,7 +249,8 @@
 /* ---------- Sheets: menu, bag, size guide, admin side sheet ----------
    Each sheet says where it slides from: --sheet-x / --sheet-y (-1, 0 or 1, in its own width/height).
    They move with transitions, not keyframes, so they also slide out, and closing halfway through
-   opening turns straight around. Swipe-to-close (ui.js) drags them along the same line. */
+   opening turns straight around. Swipe-to-close (ui.js) drags them along the same line.
+   Coming in is slow and soft (--duration-sheet); going out is a little quicker. */
 .drawer,
 .cart,
 .fit,
@@ -257,14 +258,14 @@
   --sheet-closed: translate(calc(var(--sheet-x, 0) * 100%), calc(var(--sheet-y, 0) * 100%));
   transform: var(--sheet-closed);
   transition-property: transform, overlay, display;
-  transition-duration: var(--duration);
-  transition-timing-function: var(--ease);
+  transition-duration: var(--duration-sheet-out);
+  transition-timing-function: var(--ease-sheet);
   transition-behavior: allow-discrete;
 }
 .drawer[open],
 .cart[open],
 .fit[open],
-.admin-sheet[open] { transform: none; }
+.admin-sheet[open] { transform: none; transition-duration: var(--duration-sheet); }
 @starting-style {
   .drawer[open],
   .cart[open],
@@ -275,11 +276,11 @@
 dialog::backdrop {
   opacity: 0;
   transition-property: opacity, overlay, display;
-  transition-duration: var(--duration);
-  transition-timing-function: var(--ease);
+  transition-duration: var(--duration-sheet-out);
+  transition-timing-function: var(--ease-sheet);
   transition-behavior: allow-discrete;
 }
-dialog[open]::backdrop { opacity: 1; }
+dialog[open]::backdrop { opacity: 1; transition-duration: var(--duration-sheet); }
 @starting-style { dialog[open]::backdrop { opacity: 0; } }
 .drawer__head {
   display: flex;
@@ -721,9 +722,9 @@ dialog[open]::backdrop { opacity: 1; }
   box-shadow: var(--shadow-pop);
   transform: translateY(calc(100% + var(--space-9)));
   visibility: hidden;
-  transition: transform var(--duration) var(--ease), visibility 0s linear var(--duration);
+  transition: transform var(--duration-sheet-out) var(--ease-sheet), visibility 0s linear var(--duration-sheet-out);
 }
-.toast.is-visible { transform: translateY(0); visibility: visible; transition: transform var(--duration) var(--ease), visibility 0s; }
+.toast.is-visible { transform: translateY(0); visibility: visible; transition: transform var(--duration-sheet) var(--ease-sheet), visibility 0s; }
 .toast a,
 .toast button { font-weight: var(--weight-semibold); text-decoration: underline; text-underline-offset: var(--underline-offset); white-space: nowrap; }
 @media (min-width: 1100px) {
@@ -786,6 +787,14 @@ dialog[open]::backdrop { opacity: 1; }
 .accordion details[open] summary::after { content: "−"; }
 .accordion__body { padding-bottom: var(--space-5); font-size: var(--text-md); color: var(--color-text-secondary); display: grid; gap: var(--space-2); }
 .accordion__body p { max-width: var(--measure-wide); }
+/* Answers unfold and fold away instead of snapping (where the browser can animate to a content height) */
+.accordion details::details-content {
+  block-size: 0;
+  overflow: clip;
+  opacity: 0;
+  transition: block-size var(--duration-sheet-out) var(--ease-sheet), opacity var(--duration-sheet-out) var(--ease-sheet), content-visibility var(--duration-sheet-out) allow-discrete;
+}
+.accordion details[open]::details-content { block-size: auto; opacity: 1; }
 
 /* ---------- Inner page hero ---------- */
 .page-hero {
@@ -857,6 +866,17 @@ dialog[open]::backdrop { opacity: 1; }
   color: var(--color-text);
   box-shadow: var(--shadow-pop);
 }
+/* Fades up into place, and back out */
+.lang-pick {
+  opacity: 0;
+  transform: translateY(var(--space-4));
+  transition-property: opacity, transform, overlay, display;
+  transition-duration: var(--duration-sheet-out);
+  transition-timing-function: var(--ease-sheet);
+  transition-behavior: allow-discrete;
+}
+.lang-pick[open] { opacity: 1; transform: none; transition-duration: var(--duration-sheet); }
+@starting-style { .lang-pick[open] { opacity: 0; transform: translateY(var(--space-4)); } }
 .lang-pick::backdrop { background: var(--color-overlay); }
 .lang-pick__img {
   width: 100%;

@@ -466,6 +466,15 @@
 .buybox__group .field__error:empty { display: none; }
 .buybox__cta { display: flex; gap: var(--space-3); }
 .buybox__cta .btn { flex: 1; }
+/* The quantity stepper opens out beside the button once the piece is in the bag, and closes the same way:
+   its width and the gap next to it grow together, so the button narrows smoothly */
+.buybox__cta .qty {
+  max-width: calc(2 * var(--touch) + var(--space-7));
+  overflow: hidden;
+  transition: max-width var(--duration-sheet-out) var(--ease-sheet), margin-inline-end var(--duration-sheet-out) var(--ease-sheet), opacity var(--duration-sheet-out) var(--ease-sheet), display var(--duration-sheet-out) allow-discrete;
+}
+.buybox__cta .qty[hidden] { max-width: 0; margin-inline-end: calc(-1 * var(--space-3)); opacity: 0; }
+@starting-style { .buybox__cta .qty { max-width: 0; margin-inline-end: calc(-1 * var(--space-3)); opacity: 0; } }
 /* Stock + rating under the price */
 .buybox__meta { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--space-2) var(--space-4); }
 .stock { display: inline-flex; align-items: center; gap: var(--space-2); font-size: var(--text-xs); font-weight: var(--weight-medium); color: var(--color-success); }
@@ -527,9 +536,9 @@
   background: var(--color-surface);
   box-shadow: var(--shadow-sheet);
   transform: translateY(100%);
-  transition: transform var(--duration) var(--ease);
+  transition: transform var(--duration-sheet-out) var(--ease-sheet);
 }
-.sticky-buy.is-visible { transform: translateY(0); }
+.sticky-buy.is-visible { transform: translateY(0); transition-duration: var(--duration-sheet); }
 .sticky-buy__info { flex: 1; min-width: 0; font-size: var(--text-sm); }
 .sticky-buy__info strong { display: block; font-weight: var(--weight-medium); color: var(--color-ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 @media (min-width: 1100px) { .sticky-buy { display: none; } }
@@ -657,6 +666,7 @@
   line-height: var(--leading-none);
 }
 .fit-result p { display: grid; gap: var(--space-1); }
+.fit-result.is-new > * { animation: appear var(--duration-sheet-out) var(--ease-sheet); }   /* the size changed */
 .fit-result__title { font-weight: var(--weight-medium); color: var(--color-ink); }
 .fit-result__note { font-size: var(--text-sm); color: var(--color-text-secondary); }
 .fit__switch { justify-self: center; }

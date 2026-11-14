@@ -122,7 +122,7 @@
     return '<div class="fit__body">' +
         '<p class="fit__lead">' + t("fitLead") + "</p>" +
         '<div class="fit-fields">' + fields.map(stepper).join("") + "</div>" +
-        '<div class="fit-result" id="fit-result" aria-live="polite">' + result(r) + "</div>" +
+        '<div class="fit-result" id="fit-result" data-size="' + r.size + '" aria-live="polite">' + result(r) + "</div>" +
         (product.soldOut ? "" : '<button class="btn btn--primary btn--block" type="button" data-fit-add="' + r.size + '">' + t("fitAdd", { size: sizePhrase(r.size) }) + "</button>") +
         '<button class="link fit__switch" type="button" data-fit-view="chart">' + t("sizeGuide") + "</button>" +
       "</div>";
@@ -131,7 +131,15 @@
   // A number changed: update the size, its note and the button in place
   function refresh() {
     const r = recommend(product, answers);
-    dialog.querySelector("#fit-result").innerHTML = result(r);
+    const box = dialog.querySelector("#fit-result");
+    const changed = box.dataset.size !== r.size;
+    box.innerHTML = result(r);
+    box.dataset.size = r.size;
+    if (changed) {   // a different size eases in (restart the animation if one is still running)
+      box.classList.remove("is-new");
+      void box.offsetWidth;
+      box.classList.add("is-new");
+    }
     const add = dialog.querySelector("[data-fit-add]");
     if (!add) return;
     add.dataset.fitAdd = r.size;
@@ -249,8 +257,10 @@
       const to = e.target.closest("[data-fit-view]");
       if (to) {
         view = to.dataset.fitView;
-        render();
-        dialog.querySelector("#fit-title").focus({ preventScroll: true });
+        LP.swap(() => {
+          render();
+          dialog.querySelector("#fit-title").focus({ preventScroll: true });
+        });
         return;
       }
       const add = e.target.closest("[data-fit-add]");
