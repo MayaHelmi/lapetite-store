@@ -40,7 +40,7 @@
     document.getElementById("thumbs").innerHTML = imgs.map((src, i) =>
       '<button type="button" data-thumb="' + i + '" aria-label="' + LP.t("image") + " " + (i + 1) + '"' + (i === 0 ? ' aria-current="true"' : "") + '><img src="' + LP.thumb(src) + '" alt="" width="900" height="1200" loading="lazy"></button>').join("");
     document.getElementById("dots").innerHTML = imgs.length > 1 ? imgs.map((_, i) => "<span" + (i === 0 ? ' class="is-active"' : "") + "></span>").join("") : "";
-    track.scrollLeft = 0;
+    track.scrollTo({ top: 0, left: 0, behavior: "instant" });
   }
 
   function renderOptions() {
@@ -210,13 +210,39 @@
     bind();
   }
 
+  // The photo showing most in the photo area (it scrolls sideways on phones, down on desktop)
   function visibleImage() {
     const track = document.getElementById("track");
-    const imgs = [...track.querySelectorAll("img")];
-    return imgs.find(img => {
+    const box = track.getBoundingClientRect();
+    const shown = img => {
       const r = img.getBoundingClientRect();
-      return r.width > 0 && r.left >= -1 && r.right <= window.innerWidth + 1 && r.bottom > 0 && r.top < window.innerHeight;
-    }) || imgs[0];
+      return Math.max(0, Math.min(r.right, box.right) - Math.max(r.left, box.left)) * Math.max(0, Math.min(r.bottom, box.bottom) - Math.max(r.top, box.top));
+    };
+    return [...track.querySelectorAll("img")].reduce((best, img) => (shown(img) > shown(best) ? img : best));
+  }
+
+  // Bring a photo up in the photo area (not the page)
+  function showPhoto(index, instant) {
+    const track = document.getElementById("track");
+    const img = track.querySelector('img[data-index="' + index + '"]');
+    if (!img) return;
+    const box = track.getBoundingClientRect();
+    const r = img.getBoundingClientRect();
+    track.scrollTo({ top: track.scrollTop + r.top - box.top, left: track.scrollLeft + r.left - box.left, behavior: instant || LP.reducedMotion() ? "instant" : "smooth" });
+  }
+
+  // Hovering a colour shows it on the photo in view until the pointer leaves (a click chooses it)
+  let previewed = null;
+  function endPreview() {
+    if (previewed) LP.setImage(previewed.img, previewed.src, "gallery");
+    previewed = null;
+  }
+  function previewColor(color) {
+    endPreview();
+    if (color === state.color) return;
+    const img = visibleImage();
+    previewed = { img, src: img.getAttribute("src") };
+    LP.setImage(img, LP.imagesFor(product, color)[0], "gallery");
   }
 
   function selectSize(size) {
@@ -274,6 +300,7 @@
       if (e.target.name === "color") {
         state.color = e.target.value;
         document.getElementById("p-color-name").textContent = LP.label("colors", state.color);
+        previewed = null;   // the photos are redrawn for the chosen colour
         renderGallery();
         const q = new URLSearchParams(location.search);
         q.set("color", state.color);
@@ -306,12 +333,20 @@
         if (i >= 0) LP.bag.setQty(i, LP.bag.items()[i].qty + Number(step.dataset.qty));
       }
       const thumb = e.target.closest("[data-thumb]");
-      if (thumb) {
-        const img = document.querySelector('#track img[data-index="' + thumb.dataset.thumb + '"]');
-        // Scroll the photos' own area, not the page
-        if (img) track.scrollTo({ top: track.scrollTop + img.getBoundingClientRect().top - track.getBoundingClientRect().top, behavior: LP.reducedMotion() ? "instant" : "smooth" });
-      }
+      if (thumb) showPhoto(thumb.dataset.thumb);
     });
+
+    // With a mouse: hovering a small photo brings it up, hovering a colour previews it
+    document.getElementById("thumbs").addEventListener("mouseover", e => {
+      const thumb = e.target.closest("[data-thumb]");
+      if (thumb) showPhoto(thumb.dataset.thumb, true);
+    });
+    const colors = document.getElementById("p-colors");
+    colors.addEventListener("mouseover", e => {
+      const option = e.target.closest(".option--swatch");
+      if (option) previewColor(option.querySelector("input").value);
+    });
+    colors.addEventListener("mouseout", e => { if (e.target.closest(".option--swatch")) endPreview(); });
 
     // Hover zoom (desktop only): magnify where the pointer is
     const canZoom = () => window.matchMedia("(hover: hover) and (min-width: 1100px)").matches;
