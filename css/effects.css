@@ -1,5 +1,5 @@
 /* =========================================================
-   Effects: hero crossfade, scroll reveal, cursor,
+   Effects: hero crossfade, scroll reveal,
    card swatches + quick view, fly-to-bag,
    hover zoom, seasonal decor
    Uses tokens only.
@@ -31,36 +31,6 @@
 .has-reveal [data-reveal="wipe"]:not(.is-revealed) > * { clip-path: inset(0 0 100% 0); }
 .has-reveal [data-reveal="fade"] { transition: opacity var(--reveal-duration) var(--ease), transform var(--reveal-duration) var(--ease); }
 .has-reveal [data-reveal="fade"]:not(.is-revealed) { opacity: 0; transform: translateY(var(--reveal-shift)); }
-
-/* ---------- Custom cursor ---------- */
-.cursor {
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: var(--z-toast);
-  width: var(--cursor-size);
-  height: var(--cursor-size);
-  margin: calc(var(--cursor-size) / -2) 0 0 calc(var(--cursor-size) / -2);
-  pointer-events: none;
-}
-.cursor__inner {
-  display: grid;
-  place-items: center;
-  width: 100%;
-  height: 100%;
-  border-radius: var(--radius-pill);
-  background: var(--color-ink);
-  color: var(--color-on-ink);
-  font-size: var(--text-xs);
-  letter-spacing: var(--tracking-wide);
-  text-transform: uppercase;
-  transform: scale(0);
-  transition: transform var(--duration) var(--ease);
-}
-.cursor.is-active .cursor__inner { transform: scale(1); }
-.has-cursor [data-cursor] { cursor: none; }
-.has-cursor [data-cursor] button,
-.has-cursor [data-cursor] .btn { cursor: pointer; }
 
 /* ---------- Card: color swatches, quick view ---------- */
 .card__dots { gap: 0; }
@@ -111,13 +81,13 @@
 /* ---------- Quick view dialog ---------- */
 .qv {
   width: min(100% - 2 * var(--gutter), var(--qv-w));
-  max-height: calc(100vh - 2 * var(--space-6));
+  height: min(100vh - 2 * var(--space-6), var(--qv-h));
   padding: 0;
   border: 0;
   background: var(--color-surface);
   color: var(--color-text);
   box-shadow: var(--shadow-pop);
-  overflow: auto;
+  overflow: hidden;
   /* Grows out of the card it was opened from and shrinks back into it (--qv-origin, set in ui.js).
      A transition, so closing mid-way turns around. */
   opacity: 0;
@@ -132,18 +102,18 @@
 @starting-style { .qv[open] { opacity: 0; transform: scale(var(--qv-from-scale)); } }
 .qv::backdrop { background: var(--color-overlay); }
 .qv__close { position: absolute; top: var(--space-2); inset-inline-end: var(--space-2); z-index: 1; background: var(--color-surface); }
-.qv__grid { display: grid; }
-.qv__media { display: grid; gap: var(--space-2); }
-.qv__img { width: 100%; max-width: 100%; aspect-ratio: var(--image-ratio); object-fit: cover; background: var(--color-surface-sunken); }
+/* Everything fits the dialog, nothing scrolls: the photo takes the height that is left */
+.qv__grid { display: grid; grid-template-rows: minmax(0, 1fr) auto; height: 100%; }
+.qv__media { display: grid; grid-template-rows: minmax(0, 1fr) auto; gap: var(--space-2); min-height: 0; }
+.qv__img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 20%; background: var(--color-surface-sunken); }
 .qv__thumbs { display: flex; gap: var(--space-2); padding-inline: var(--space-3); padding-bottom: var(--space-3); }
-.qv__thumbs button { width: var(--qv-thumb); border: var(--hairline-w) solid transparent; padding: 0; }
+.qv__thumbs button { flex: 1 1 0; min-width: 0; max-width: var(--qv-thumb); border: var(--hairline-w) solid transparent; padding: 0; }
 .qv__thumbs button[aria-current="true"] { border-color: var(--color-ink); }
 .qv__thumbs img { aspect-ratio: var(--image-ratio); object-fit: cover; }
-.qv__body { display: grid; gap: var(--space-5); align-content: start; padding: var(--space-6); }
+.qv__body { display: grid; gap: var(--space-5); align-content: center; padding: var(--space-6); }
 .qv__body .h2 { font-size: var(--text-2xl); }
 @media (min-width: 768px) {
-  .qv__grid { grid-template-columns: 1fr 1fr; }
-  .qv__thumbs { padding-inline: 0; }
+  .qv__grid { grid-template-columns: 1fr 1fr; grid-template-rows: minmax(0, 1fr); }
 }
 
 /* ---------- Product page: hover zoom ---------- */

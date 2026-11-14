@@ -164,7 +164,6 @@
           '<div class="admin-contact">' +
             '<a class="btn btn--secondary" href="tel:' + esc(c.phone) + '">' + LP.icons.phone + "<span>" + t("adminCall") + "</span></a>" +
             '<a class="btn btn--secondary" href="' + wa + '" target="_blank" rel="noopener">' + LP.icons.whatsapp + "<span>" + t("adminWhatsapp") + "</span></a>" +
-            (c.location ? '<a class="btn btn--secondary" href="' + LP.config.mapsUrl + c.location.lat + "," + c.location.lng + '" target="_blank" rel="noopener">' + LP.icons.pin + "<span>" + t("locationView") + "</span></a>" : "") +
           "</div>" +
         "</section>" +
         '<section class="admin-block"><h3 class="admin-block__title">' + t("adminItems") + "</h3>" +

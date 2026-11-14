@@ -42,6 +42,9 @@ table { border-collapse: collapse; width: 100%; }
   outline-offset: var(--focus-width);
 }
 
+/* A dialog takes the focus itself when it opens (ui.js), so no ring is drawn around its first button */
+dialog:focus-visible { outline: none; }
+
 .sr-only {
   position: absolute;
   width: var(--hairline-w);

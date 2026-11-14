@@ -4,6 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <link rel="icon" href="assets/brand/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="assets/brand/apple-touch-icon.png">
   <title>La Petite</title>
   <meta name="description" content="لا بوتيت باي هبة عزام: تصاميم محتشمة حصرية من الأردن. عبايات، أطقم، فساتين وجاكيتات، مع توصيل لكل المملكة والدفع عند الاستلام.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -25,7 +26,15 @@
   <link rel="expect" href="#page-read" blocking="render">
 </head>
 <body>
-  <div id="site-header"></div>
+  <!-- The header, page content and footer below are the Arabic site written out as plain HTML, so search
+       engines and link previews that do not run JavaScript still see it. The scripts at the bottom redraw all
+       of it (and switch language): change text in js/i18n.js, js/content.js and js/products.js, not here. -->
+  <div id="site-header" class="site-head">
+    <a class="skip-link" href="#main">انتقلي إلى المحتوى</a>
+    <div class="announce"><div class="container announce__inner"><span class="announce__text"><span class="announce__msg">توصيل مجاني فوق 60.00 د.أ · الدفع عند الاستلام</span></span><button class="announce__close" type="button" data-close-announce="" aria-label="إغلاق"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"></path></svg></button></div></div>
+    <header class="header"><div class="container header__inner"><div class="header__corner header__corner--left"><button class="icon-btn" type="button" data-open-menu="" aria-label="القائمة" aria-controls="menu-drawer"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h10"></path></svg></button><button class="lang-btn" type="button" data-lang-toggle="" aria-label="Switch to English">EN</button></div><div class="header__start"><nav class="nav" aria-label="تسوّقي"><ul class="nav__list"><li><a class="nav__link" href="shop.html">تسوّقي</a></li><li><a class="nav__link" href="about.html">عن لا بوتيت</a></li></ul></nav></div><a class="wordmark" href="index.html" aria-label="La Petite">La Petite<small>by Heba Azzam</small></a><div class="header__end"><nav class="nav" aria-label="معلومات"><ul class="nav__list"><li><a class="nav__link" href="track.html">تتبعي طلبك</a></li><li><a class="nav__link" href="help.html">الأسئلة الشائعة</a></li><li><a class="nav__link" href="contact.html">تواصلي معنا</a></li></ul></nav><a class="icon-btn only-desktop" href="shop.html?focus=search" aria-label="بحث"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-4-4"></path></svg></a><button class="lang-btn" type="button" data-lang-toggle="" aria-label="Switch to English">EN</button><a class="icon-btn" href="bag.html" aria-label="السلة" data-bag-target="" data-open-bag="" aria-haspopup="dialog"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 8h14l-1 12H6L5 8Z"></path><path d="M9 8V6a3 3 0 0 1 6 0v2"></path></svg><span class="count-badge" data-bag-count="" hidden="">0</span></a></div><div class="header__corner header__corner--right"><a class="icon-btn" href="shop.html?focus=search" aria-label="بحث"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-4-4"></path></svg></a><a class="icon-btn" href="bag.html" aria-label="السلة" data-bag-target="" data-open-bag="" aria-haspopup="dialog"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 8h14l-1 12H6L5 8Z"></path><path d="M9 8V6a3 3 0 0 1 6 0v2"></path></svg><span class="count-badge" data-bag-count="" hidden="">0</span></a></div></div></header>
+    <dialog class="drawer" id="menu-drawer" aria-label="القائمة"><div class="drawer__head"><a class="wordmark" href="index.html">La Petite<small>by Heba Azzam</small></a><button class="icon-btn" type="button" data-close-menu="" aria-label="إغلاق"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"></path></svg></button></div><nav class="drawer__body" aria-label="القائمة"><div class="drawer__group"><p class="eyebrow">تسوّقي</p><a class="drawer__link" href="shop.html"><span>تسوّقي الكل</span><svg class="icon icon--flip" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"></path></svg></a><a class="drawer__link" href="shop.html?cat=sets"><span>أطقم</span><svg class="icon icon--flip" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"></path></svg></a><a class="drawer__link" href="shop.html?cat=abayas"><span>عبايات</span><svg class="icon icon--flip" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"></path></svg></a><a class="drawer__link" href="shop.html?cat=dresses"><span>فساتين</span><svg class="icon icon--flip" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"></path></svg></a><a class="drawer__link" href="shop.html?cat=outerwear"><span>جاكيتات</span><svg class="icon icon--flip" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"></path></svg></a><a class="drawer__link" href="shop.html?cat=vests"><span>فيستات</span><svg class="icon icon--flip" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"></path></svg></a><a class="drawer__link" href="shop.html?cat=tops"><span>بلايز وقمصان</span><svg class="icon icon--flip" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"></path></svg></a></div><div class="drawer__group"><p class="eyebrow">معلومات</p><a class="drawer__link drawer__link--small" href="track.html"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h11v10H3zM14 10h4l3 3v3h-7"></path><circle cx="7" cy="18" r="1.6"></circle><circle cx="17" cy="18" r="1.6"></circle></svg><span>تتبعي طلبك</span></a><a class="drawer__link drawer__link--small" href="help.html"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"></circle><path d="M9.6 9.6a2.5 2.5 0 1 1 3.4 2.3c-.6.3-1 .8-1 1.5v.6M12 16.8v.4"></path></svg><span>الأسئلة الشائعة</span></a><a class="drawer__link drawer__link--small" href="about.html"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"></circle><path d="M12 11v5.5M12 7.5v.5"></path></svg><span>عن لا بوتيت</span></a><a class="drawer__link drawer__link--small" href="contact.html"><img class="icon icon--logo" src="assets/brand/instagram.svg" alt="" width="24" height="24"><span>تواصلي معنا</span></a></div></nav></dialog>
+  </div>
 
   <main id="main" class="container">
     <nav aria-label="breadcrumb"><ol class="breadcrumb" id="breadcrumb"></ol></nav>
@@ -41,8 +50,8 @@
         <div class="buybox__title">
           <p class="eyebrow" id="p-collection"></p>
           <h1 class="h1" id="p-name"></h1>
-          <p class="buybox__price" id="p-price"></p>
           <div class="buybox__meta">
+            <p class="buybox__price" id="p-price"></p>
             <p class="stock" id="p-stock"></p>
             <a class="rating-link" id="p-rating" href="#reviews" hidden></a>
           </div>
@@ -54,10 +63,14 @@
         </fieldset>
 
         <fieldset class="buybox__group">
-          <legend class="buybox__label"><span data-i18n="sizeLabel"></span><strong id="p-size-name"></strong><button class="link buybox__guide" type="button" id="size-guide-link" data-i18n="sizeGuide" aria-haspopup="dialog"></button></legend>
+          <legend class="buybox__label"><span data-i18n="sizeLabel"></span><strong id="p-size-name"></strong></legend>
           <div class="options" id="p-sizes"></div>
           <p class="field__error" id="size-error" role="alert"></p>
-          <button class="fit-trigger" type="button" id="fit-open" aria-haspopup="dialog"></button>
+          <!-- Size help, side by side: the advisor and the size chart -->
+          <div class="buybox__help">
+            <button class="fit-trigger" type="button" id="fit-open" aria-haspopup="dialog"></button>
+            <button class="link" type="button" id="size-guide-link" data-i18n="sizeGuide" aria-haspopup="dialog"></button>
+          </div>
         </fieldset>
 
         <p class="buy-note" id="buy-note"></p>
@@ -105,7 +118,9 @@
     <button class="btn btn--primary" type="button" id="sticky-add" tabindex="-1" data-i18n="addToBag"></button>
   </div>
 
-  <div id="site-footer"></div>
+  <div id="site-footer">
+    <footer class="footer"><div class="container"><div class="footer__grid"><div class="footer__brand"><a class="wordmark" href="index.html">La Petite<small>by Heba Azzam</small></a><p>تصاميم محتشمة وأنيقة من الأردن، بتفاصيل ناعمة وخامات مختارة.</p><ul class="footer__links"><li><a href="https://www.instagram.com/lapetite_byheba/" target="_blank" rel="noopener"><img class="icon icon--logo" src="assets/brand/instagram.svg" alt="" width="24" height="24"><span class="handle" dir="ltr">@lapetite_byheba</span></a></li></ul></div><div><p class="footer__title">تسوّقي</p><ul class="footer__links"><li><a href="shop.html?cat=sets">أطقم</a></li><li><a href="shop.html?cat=abayas">عبايات</a></li><li><a href="shop.html?cat=dresses">فساتين</a></li><li><a href="shop.html?cat=outerwear">جاكيتات</a></li><li><a href="shop.html?cat=vests">فيستات</a></li><li><a href="shop.html?cat=tops">بلايز وقمصان</a></li></ul></div><div><p class="footer__title">مساعدة</p><ul class="footer__links"><li><a href="track.html">تتبعي طلبك</a></li><li><a href="help.html">الأسئلة الشائعة</a></li></ul></div><div><p class="footer__title">لا بوتيت</p><ul class="footer__links"><li><a href="about.html">عن لا بوتيت</a></li><li><a href="contact.html">تواصلي معنا</a></li></ul></div></div><div class="footer__bottom"><p>جميع الصور من تصويرنا. <bdi dir="ltr">© 2026 La Petite by Heba Azzam</bdi></p></div></div></footer>
+  </div>
 
   <script src="js/config.js"></script>
   <script src="js/i18n.js"></script>

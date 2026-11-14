@@ -177,10 +177,6 @@
       "</li>";
     }).join("");
 
-    const mapLink = c.location
-      ? '<a class="link" href="' + LP.config.mapsUrl + c.location.lat + "," + c.location.lng + '" target="_blank" rel="noopener">' + LP.icons.pin + "<span>" + t("locationView") + "</span></a>"
-      : "";
-
     root.innerHTML = head +
       '<section class="order-card" aria-labelledby="track-title">' +
         '<h2 class="order-card__title" id="track-title">' + LP.icons.truck + "<span>" + t("trackTitle") + "</span></h2>" +
@@ -204,7 +200,7 @@
           row(t("city"), LP.label("cities", c.city)) +
           row(t("address"), LP.esc(c.address)) +
           (c.notes ? row(t("notes"), LP.esc(c.notes)) : "") +
-        "</div>" + mapLink +
+        "</div>" +
       "</section>" +
       '<section class="order-card" aria-labelledby="invoice-title">' +
         '<h2 class="order-card__title" id="invoice-title">' + LP.icons.receipt + "<span>" + t("invoiceSummary") + "</span></h2>" +

@@ -294,8 +294,8 @@
       const thumb = e.target.closest("[data-thumb]");
       if (thumb) {
         const img = document.querySelector('#track img[data-index="' + thumb.dataset.thumb + '"]');
-        if (img) img.scrollIntoView({ behavior: "smooth", block: "start" });
-        document.querySelectorAll("[data-thumb]").forEach(b => b.setAttribute("aria-current", b === thumb ? "true" : "false"));
+        // Scroll the photos' own area, not the page
+        if (img) track.scrollTo({ top: track.scrollTop + img.getBoundingClientRect().top - track.getBoundingClientRect().top, behavior: LP.reducedMotion() ? "instant" : "smooth" });
       }
     });
 
@@ -315,10 +315,20 @@
       if (fig && !fig.contains(e.relatedTarget)) fig.classList.remove("is-zoomed");
     });
 
+    // Which photo is showing: phones scroll them sideways (dots), desktop scrolls them down in their own area (small photos)
     track.addEventListener("scroll", () => {
-      const w = track.clientWidth || 1;
-      const i = Math.round(Math.abs(track.scrollLeft) / w);
+      const box = track.getBoundingClientRect();
+      const offsets = [...track.children].map(fig => {
+        const r = fig.getBoundingClientRect();
+        return Math.abs(r.left - box.left) + Math.abs(r.top - box.top);
+      });
+      const atEnd = track.scrollTop > 0 && track.scrollTop + track.clientHeight >= track.scrollHeight - 1;
+      const i = atEnd ? offsets.length - 1 : offsets.indexOf(Math.min(...offsets));
       document.querySelectorAll("#dots span").forEach((d, n) => d.classList.toggle("is-active", n === i));
+      document.querySelectorAll("[data-thumb]").forEach((b, n) => {
+        b.setAttribute("aria-current", String(n === i));
+        if (n === i && b.offsetParent) b.scrollIntoView({ block: "nearest" });
+      });
     }, { passive: true });
 
     const sticky = document.getElementById("sticky-buy");

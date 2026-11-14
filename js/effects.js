@@ -1,6 +1,5 @@
 /* =========================================================
-   Effects: hero crossfade, scroll reveal, custom cursor,
-   seasonal decor. Runs after every page render.
+   Effects: hero crossfade, scroll reveal, seasonal decor. Runs after every page render.
    All effects switch off when the visitor prefers reduced motion.
    ========================================================= */
 window.LP = window.LP || {};
@@ -10,7 +9,6 @@ LP.effects = {
     this.season();
     this.hero();
     this.reveal();
-    this.cursor();
   },
 
   /* ---------- Hero: each slot crossfades between two photos ---------- */
@@ -75,47 +73,6 @@ LP.effects = {
       if (el.getBoundingClientRect().top < window.innerHeight) el.classList.add("is-revealed");
       else this._observer.observe(el);
     });
-  },
-
-  /* ---------- Custom cursor: a "View" circle over products ---------- */
-  cursor() {
-    if (this._cursorReady) return;
-    const fine = window.matchMedia && window.matchMedia("(hover: hover) and (pointer: fine)").matches;
-    if (!fine || LP.reducedMotion()) return;
-    this._cursorReady = true;
-    document.documentElement.classList.add("has-cursor");
-
-    const el = document.createElement("div");
-    el.className = "cursor";
-    el.setAttribute("aria-hidden", "true");
-    el.innerHTML = '<span class="cursor__inner"><span class="cursor__label"></span></span>';
-    document.body.appendChild(el);
-    const label = el.querySelector(".cursor__label");
-
-    const pos = { x: -200, y: -200 };
-    const target = { x: -200, y: -200 };
-    const labels = { view: "cursorView", explore: "cursorExplore", follow: "cursorFollow" };
-
-    document.addEventListener("mousemove", e => { target.x = e.clientX; target.y = e.clientY; }, { passive: true });
-    document.addEventListener("mouseover", e => {
-      const host = e.target.closest && e.target.closest("[data-cursor]");
-      const onControl = e.target.closest && e.target.closest("button, .btn, input, select, label");
-      if (host && !onControl) {
-        label.textContent = LP.t(labels[host.dataset.cursor] || "cursorView");
-        el.classList.add("is-active");
-      } else {
-        el.classList.remove("is-active");
-      }
-    });
-    document.addEventListener("mouseleave", () => el.classList.remove("is-active"));
-
-    const loop = () => {
-      pos.x += (target.x - pos.x) * 0.22;
-      pos.y += (target.y - pos.y) * 0.22;
-      el.style.transform = "translate3d(" + pos.x + "px, " + pos.y + "px, 0)";
-      requestAnimationFrame(loop);
-    };
-    requestAnimationFrame(loop);
   },
 
   /* ---------- Seasonal decor (Ramadan / Eid) ---------- */

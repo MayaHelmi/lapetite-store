@@ -5,13 +5,12 @@
    their order page, where they can track it.
    ========================================================= */
 (function () {
-  const form = { name: "", phone: "", city: "", address: "", notes: "", location: null };
+  const form = { name: "", phone: "", city: "", address: "", notes: "" };
   let fees = Object.assign({}, LP.config.deliveryFees);
   let problems = {};      // product id → "soldOut" | "unavailable", from the last attempt
   let removed = null;     // the piece just removed (undo)
   let placing = false;
   let orderKey = "";      // same key for every try of this checkout, so a retry can't place it twice
-  let locating = false;
   let bound = false;
 
   function itemIssue(item) {
@@ -60,17 +59,6 @@
       '<p class="field__error" id="' + id + '-error"></p></div>';
   }
 
-  function locationHtml() {
-    if (form.location) {
-      const url = LP.config.mapsUrl + form.location.lat + "," + form.location.lng;
-      return '<p class="location-set">' + LP.icons.check + "<span>" + LP.t("locationSet") + "</span>" +
-        '<a class="link" href="' + url + '" target="_blank" rel="noopener">' + LP.t("locationView") + "</a>" +
-        '<button class="link" type="button" data-clear-location>' + LP.t("remove") + "</button></p>";
-    }
-    return '<button class="btn btn--secondary btn--block" type="button" data-locate' + (locating ? " disabled" : "") + ">" +
-      LP.icons.pin + "<span>" + LP.t(locating ? "locationFinding" : "locationAdd") + "</span></button>";
-  }
-
   function formHtml() {
     const cities = LP.config.cities.map(c => '<option value="' + c + '"' + (form.city === c ? " selected" : "") + ">" + LP.label("cities", c) + "</option>").join("");
     return '<form class="order-form" id="order-form" novalidate>' +
@@ -79,7 +67,6 @@
       field("f-phone", "phone", '<input class="input" id="f-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" required dir="ltr" value="' + LP.esc(form.phone) + '">', "phoneHint") +
       field("f-city", "city", '<select class="select" id="f-city" name="city" autocomplete="address-level1" required><option value="">' + LP.t("chooseCity") + "</option>" + cities + "</select>") +
       field("f-address", "address", '<input class="input" id="f-address" name="address" autocomplete="street-address" required maxlength="200" placeholder="' + LP.t("addressPlaceholder") + '" value="' + LP.esc(form.address) + '">') +
-      '<div class="field"><p class="field__label">' + LP.t("location") + '</p><div id="location-box">' + locationHtml() + '</div><p class="field__error" id="location-error"></p></div>' +
       field("f-notes", "notes", '<textarea class="textarea" id="f-notes" name="notes" maxlength="500">' + LP.esc(form.notes) + "</textarea>") +
       '<fieldset class="pay"><legend class="field__label">' + LP.t("paymentTitle") + "</legend>" +
         '<label class="pay__option"><input type="radio" name="payment" value="cod" checked><span><strong>' + LP.t("paymentCod") + "</strong>" + LP.t("paymentCodText") + "</span></label>" +
@@ -179,7 +166,7 @@
     try {
       const order = await LP.api.createOrder({
         items,
-        customer: { name: form.name, phone: form.phone, city: form.city, address: form.address, notes: form.notes, location: form.location },
+        customer: { name: form.name, phone: form.phone, city: form.city, address: form.address, notes: form.notes },
         lang: LP.lang,
         key: orderKey
       });
@@ -198,24 +185,6 @@
         showOrderError(LP.t("orderFailed"));
       }
     }
-  }
-
-  function locate() {
-    const box = document.getElementById("location-box");
-    const err = document.getElementById("location-error");
-    err.textContent = "";
-    if (!navigator.geolocation) { err.textContent = LP.t("locationError"); return; }
-    locating = true;
-    box.innerHTML = locationHtml();
-    navigator.geolocation.getCurrentPosition(pos => {
-      locating = false;
-      form.location = { lat: +pos.coords.latitude.toFixed(6), lng: +pos.coords.longitude.toFixed(6) };
-      box.innerHTML = locationHtml();
-    }, () => {
-      locating = false;
-      box.innerHTML = locationHtml();
-      err.textContent = LP.t("locationError");
-    }, { enableHighAccuracy: true, timeout: 15000 });
   }
 
   function bind() {
@@ -250,11 +219,6 @@
         const back = document.querySelectorAll("[data-remove]")[r.index];
         if (back) back.focus();
         return;
-      }
-      if (e.target.closest("[data-locate]")) { locate(); return; }
-      if (e.target.closest("[data-clear-location]")) {
-        form.location = null;
-        document.getElementById("location-box").innerHTML = locationHtml();
       }
     });
 

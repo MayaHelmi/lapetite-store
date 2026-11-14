@@ -121,7 +121,7 @@
       book.classList.toggle("has-open", openLook >= 0);
       book.innerHTML = h.lookbook.map((item, i) => {
         const n = LP.products.filter(p => p.collection === item.key).length;
-        return '<a class="look' + (i === openLook ? " is-open" : "") + '" href="shop.html?collection=' + item.key + '" data-cursor="explore">' +
+        return '<a class="look' + (i === openLook ? " is-open" : "") + '" href="shop.html?collection=' + item.key + '">' +
           "<img " + LP.imgAttrs(brand + item.image, "look") + ' alt="" loading="lazy" decoding="async" width="1200" height="1600">' +
           '<div class="look__copy">' +
             '<span class="look__index">' + LP.piecesLabel(n) + "</span>" +
@@ -135,7 +135,7 @@
 
       // Categories: photo tiles, name + short line on a frosted strip
       document.getElementById("categories").innerHTML = h.categoryTiles.map(tile =>
-        '<a class="tile" href="shop.html?cat=' + tile.key + '" data-cursor="view">' +
+        '<a class="tile" href="shop.html?cat=' + tile.key + '">' +
           '<img class="tile__img" ' + LP.imgAttrs(brand + tile.image, "tile") + ' alt="" loading="lazy" decoding="async" width="1200" height="1600">' +
           '<div class="tile__space"></div>' +
           '<div class="tile__strip"><h3 class="tile__title">' + LP.label("categories", tile.key) + "</h3></div>" +
@@ -143,7 +143,7 @@
 
       // About the brand + Instagram: her latest posts as the picture, story + points beside it
       document.getElementById("about-media").innerHTML = h.instagram
-        .map(src => '<a href="' + LP.config.instagramUrl + '" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true" data-cursor="follow"><img ' + LP.imgAttrs(src, "instagram") + ' alt="" loading="lazy" decoding="async" width="900" height="1200"></a>')
+        .map(src => '<a href="' + LP.config.instagramUrl + '" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true"><img ' + LP.imgAttrs(src, "instagram") + ' alt="" loading="lazy" decoding="async" width="900" height="1200"></a>')
         .join("");
       document.getElementById("about-teaser-text").innerHTML = "<p>" + LP.tx(c.about.lead) + "</p>";
       document.getElementById("about-points").innerHTML = c.values.map((v, i) =>

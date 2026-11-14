@@ -124,7 +124,7 @@ window.LP = window.LP || {};
         deliveryFee: fee,
         total: subtotal + fee,
         payment: LP.config.payment,
-        customer: { name: s.name, phone: s.phone, city: s.city, address: s.address, notes: s.notes || "", location: null },
+        customer: { name: s.name, phone: s.phone, city: s.city, address: s.address, notes: s.notes || "" },
         lang: "ar",
         adminNote: s.note || ""
       };
@@ -143,7 +143,7 @@ window.LP = window.LP || {};
   LP.api = {
     async getSettings() { return settings(); },
 
-    /* items: [{ id, color, size, qty }], customer: { name, phone, city, address, notes, location }
+    /* items: [{ id, color, size, qty }], customer: { name, phone, city, address, notes }
        key: one id per checkout attempt. Sending the same key again (a double tap, or a retry after
        the connection dropped) returns the order already placed instead of placing a second one. */
     async createOrder({ items, customer, lang, key }) {
@@ -189,8 +189,7 @@ window.LP = window.LP || {};
           phone: LP.normPhone(c.phone),
           city: c.city,
           address: String(c.address).trim().slice(0, 200),
-          notes: String(c.notes || "").trim().slice(0, 500),
-          location: c.location && isFinite(c.location.lat) && isFinite(c.location.lng) ? { lat: Number(c.location.lat), lng: Number(c.location.lng) } : null
+          notes: String(c.notes || "").trim().slice(0, 500)
         },
         lang: lang === "en" ? "en" : "ar",
         adminNote: ""

@@ -736,13 +736,24 @@ dialog[open]::backdrop { opacity: 1; }
   flex-wrap: wrap;
   align-items: center;
   gap: var(--space-2);
-  font-size: var(--text-xs);
+  font-size: var(--text-sm);
   color: var(--color-text-secondary);
   padding-block: var(--space-2);
 }
-.breadcrumb li + li::before { content: "/"; margin-inline-end: var(--space-2); }
-.breadcrumb a { display: inline-flex; align-items: center; min-height: var(--touch); }
-.breadcrumb a:hover { color: var(--color-ink); }
+.breadcrumb li { display: inline-flex; align-items: center; gap: var(--space-2); }
+/* "›" points the reading way: the browser mirrors it in Arabic */
+.breadcrumb li + li::before { content: "›"; font-size: var(--text-md); color: var(--color-text-hint); }
+.breadcrumb a {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--touch);
+  text-decoration: underline;
+  text-decoration-color: var(--color-border);
+  text-underline-offset: var(--underline-offset);
+}
+.breadcrumb a:hover { color: var(--color-ink); text-decoration-color: currentColor; }
+/* Where she is now: darker and not a link */
+.breadcrumb [aria-current] { color: var(--color-ink); font-weight: var(--weight-medium); }
 
 /* ---------- Empty state ---------- */
 .empty {

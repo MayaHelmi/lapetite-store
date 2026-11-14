@@ -253,7 +253,7 @@ LP.card = function (p, level) {
       '<span class="dot" style="background: var(--swatch-' + c + ')"></span></button>').join("") +
     (extra > 0 ? "<span>" + LP.t("moreColors", { n: extra }) + "</span>" : "");
 
-  return '<article class="card' + (p.soldOut ? " is-sold-out" : "") + '" data-id="' + p.id + '" data-color="' + color + '" data-cursor="view">' +
+  return '<article class="card' + (p.soldOut ? " is-sold-out" : "") + '" data-id="' + p.id + '" data-color="' + color + '">' +
     '<div class="card__media">' +
       (badges ? '<div class="card__badges">' + badges + "</div>" : "") +
       '<img class="card__img" ' + LP.imgAttrs(imgs[0], "card") + ' alt="' + name + '" loading="lazy" decoding="async" width="900" height="1200">' +
@@ -415,6 +415,9 @@ LP.copyText = async function (text) {
 LP.openDialog = el => {
   LP.swipeToClose(el);
   if (typeof el.showModal === "function") el.showModal(); else el.setAttribute("open", "");
+  // Focus the dialog itself, not its close button: Tab then moves to the first control
+  if (!el.hasAttribute("tabindex")) el.tabIndex = -1;
+  el.focus();
 };
 LP.closeDialog = el => { if (typeof el.close === "function") el.close(); else el.removeAttribute("open"); };
 
@@ -667,6 +670,27 @@ document.addEventListener("click", e => {
 document.addEventListener("mouseover", e => {
   const sw = e.target.closest && e.target.closest("[data-swatch]");
   if (sw) LP.setCardColor(sw.closest(".card"), sw.dataset.swatch);
+});
+
+// Quick view: hovering a small photo shows it; hovering a colour previews that colour until the pointer leaves
+LP.quickView.show = function (color, index) {
+  const s = this.state;
+  LP.setImage(document.getElementById("qv-img"), LP.imagesFor(LP.getProduct(s.id), color || s.color)[index === undefined ? s.img : index], "quick");
+};
+document.addEventListener("mouseover", e => {
+  if (!e.target.closest || !e.target.closest("#quick-view")) return;
+  const thumb = e.target.closest("[data-qv-img]");
+  if (thumb) {
+    LP.quickView.state.img = Number(thumb.dataset.qvImg);
+    LP.quickView.show();
+    document.querySelectorAll("[data-qv-img]").forEach(b => b.setAttribute("aria-current", String(b === thumb)));
+    return;
+  }
+  const swatch = e.target.closest(".option--swatch");
+  if (swatch) LP.quickView.show(swatch.querySelector("input").value, 0);
+});
+document.addEventListener("mouseout", e => {
+  if (e.target.closest && e.target.closest("#quick-view .option--swatch")) LP.quickView.show();
 });
 
 document.addEventListener("change", e => {

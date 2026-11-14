@@ -228,10 +228,10 @@
   --skeleton-short: 38%;
   --skeleton-long: 62%;
   --skeleton-block: 144px;
-  --cursor-size: 84px;
   --zoom-scale: 2.2;
   --lantern-w: 34px;
   --qv-w: 920px;
+  --qv-h: 640px;
   --qv-from-scale: 0.92;    /* quick view grows from the card it was opened from */
   /* Size advisor (product page) */
   --fit-w: 460px;
@@ -273,8 +273,8 @@
 
 /* Arabic: no letter-spacing (it breaks the letter joins) */
 :root[lang="ar"] {
-  --tracking-wide: 0;
-  --tracking-display: 0;
+  --tracking-wide: 0em;      /* with a unit: these are added to lengths in calc() */
+  --tracking-display: 0em;
   --measure-wide: 54ch;   /* Arabic letters are narrower than the "0" that ch measures, so lines ran long */
 }
 

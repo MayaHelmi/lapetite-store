@@ -77,7 +77,6 @@ LP.config = {
   orderSteps: ["review", "confirmed", "preparing", "shipping", "delivered"],
   orderNumberStart: 1001,
   maxQty: 10,
-  mapsUrl: "https://www.google.com/maps?q=",
 
   // ---------- Admin (DEMO) ----------
   // Demo-only passcode for admin.html. The live version puts the admin panel behind a real
