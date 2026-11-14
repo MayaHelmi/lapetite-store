@@ -328,7 +328,7 @@ LP.tones = {
   "cat-tops": "847864b1a595",
   "cat-vests": "907e6b998b82",
   "col-autumn": "816d5e8f8884",
-  "col-eid": "7a6e606c5a59",
+  "col-eid": "7c6f5c705d59",
   "col-ramadan": "757d7f7b715c",
   "col-summer": "85877d7e8085",
   "col-winter": "92867999938e",
