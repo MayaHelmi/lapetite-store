@@ -198,10 +198,13 @@
     if (bound) return;
     bound = true;
     document.addEventListener("click", e => {
-      if (e.target.closest("#filters-toggle")) { setPanel(!panelOpen); return; }
+      // The filter panel fades open and closed with the page below it, instead of pushing it down at once
+      if (e.target.closest("#filters-toggle")) { LP.swap(() => setPanel(!panelOpen)); return; }
       if (e.target.closest("#filters-done")) {
-        setPanel(false);
-        document.getElementById("grid").scrollIntoView({ behavior: "smooth", block: "start" });
+        LP.swap(() => {
+          setPanel(false);
+          document.getElementById("grid").scrollIntoView({ behavior: "smooth", block: "start" });
+        });
         return;
       }
       const chip = e.target.closest("[data-cat]");
