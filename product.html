@@ -76,7 +76,8 @@
         <p class="buy-note" id="buy-note"></p>
 
         <div class="buybox__cta" id="main-cta">
-          <div class="qty">
+          <!-- Shows once this colour and size is in the bag, and changes how many are in it -->
+          <div class="qty" id="p-qty-box" data-i18n-aria="qtyLabel" hidden>
             <button type="button" data-qty="-1" data-i18n-aria="decrease">−</button>
             <output id="p-qty" aria-live="polite">1</output>
             <button type="button" data-qty="1" data-i18n-aria="increase">+</button>

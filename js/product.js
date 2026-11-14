@@ -9,8 +9,7 @@
   const product = LP.getProduct(params.get("id"));
   const state = {
     color: product ? (product.colors.includes(params.get("color")) ? params.get("color") : LP.firstImageColor(product)) : "",
-    size: product && product.sizes.length === 1 ? product.sizes[0] : "",
-    qty: 1
+    size: product && product.sizes.length === 1 ? product.sizes[0] : ""
   };
   let bound = false;
   let reviews = { own: [], shop: [] };
@@ -184,7 +183,7 @@
     document.getElementById("p-name").textContent = name;
     document.getElementById("p-price").textContent = LP.formatPrice(product.price);
     document.getElementById("sticky-price").textContent = LP.formatPrice(product.price);
-    document.getElementById("p-qty").textContent = state.qty;
+    renderQty();
 
     const stock = document.getElementById("p-stock");
     stock.classList.toggle("is-out", !!product.soldOut);
@@ -227,6 +226,7 @@
     state.size = size;
     document.getElementById("p-size-name").textContent = LP.label("sizes", size);
     document.getElementById("size-error").textContent = "";
+    renderQty();
   }
 
   // A size must be picked first; points her to the sizes when it isn't
@@ -240,16 +240,28 @@
     return false;
   }
 
-  // Buy now: into the bag and straight to checkout
+  // Where the chosen colour and size sits in the bag (-1 when it isn't there)
+  function bagIndex() {
+    return LP.bag.items().findIndex(i => i.id === product.id && i.color === state.color && i.size === state.size);
+  }
+
+  // The quantity stepper appears once this colour and size is in the bag, and shows how many are in it
+  function renderQty() {
+    const item = LP.bag.items()[bagIndex()];
+    document.getElementById("p-qty-box").hidden = !item;
+    if (item) document.getElementById("p-qty").textContent = item.qty;
+  }
+
+  // Buy now: into the bag (unless it's already there) and straight to checkout
   function buyNow() {
     if (product.soldOut || !sizeReady()) return;
-    LP.bag.add(product.id, state.color, state.size, state.qty);
+    if (bagIndex() < 0) LP.bag.add(product.id, state.color, state.size, 1);
     location.href = "bag.html";
   }
 
   function addToBag() {
     if (product.soldOut || !sizeReady()) return;
-    LP.bag.add(product.id, state.color, state.size, state.qty);
+    LP.bag.add(product.id, state.color, state.size, 1);
     const img = visibleImage();
     LP.flyToBag(img.currentSrc || img.src, img.getBoundingClientRect(), LP.cart.open);
   }
@@ -266,11 +278,13 @@
         const q = new URLSearchParams(location.search);
         q.set("color", state.color);
         history.replaceState(null, "", location.pathname + "?" + q.toString());
+        renderQty();
       }
       if (e.target.name === "size") {
         state.size = e.target.value;
         document.getElementById("p-size-name").textContent = LP.label("sizes", state.size);
         document.getElementById("size-error").textContent = "";
+        renderQty();
       }
     });
 
@@ -287,8 +301,9 @@
     document.addEventListener("click", e => {
       const step = e.target.closest("[data-qty]");
       if (step) {
-        state.qty = Math.max(1, Math.min(10, state.qty + Number(step.dataset.qty)));
-        document.getElementById("p-qty").textContent = state.qty;
+        // Changes the bag itself; stepping down from 1 takes the piece out (and hides the stepper)
+        const i = bagIndex();
+        if (i >= 0) LP.bag.setQty(i, LP.bag.items()[i].qty + Number(step.dataset.qty));
       }
       const thumb = e.target.closest("[data-thumb]");
       if (thumb) {
@@ -343,6 +358,8 @@
 
   // Delivery fees load from the settings after the first render
   document.addEventListener("lp:fees", () => { if (product) renderInfo(); });
+  // The bag changed (here or in the bag drawer): keep the stepper in step with it
+  document.addEventListener("lp:bag", () => { if (product) renderQty(); });
   if (product) {
     loadReviews();
     LP.whenShown(() => LP.recent.add(product.id));
